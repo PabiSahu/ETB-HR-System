@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= __('EmployeeDetailsForm') %></title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style1.css">
+    <!-- <link rel="stylesheet" href="/css/home.css"> -->
+    <!-- <link rel="stylesheet" href="/css/employeeDetails1.css"> -->
+</head>
+
+<body>
+    <header>
+        <div>
+            <a href="/home" style="margin-top: 0px;">
+                <img src="/img/etb.png" alt="Company Logo" class="logo1">
+            </a>
+        </div>
+        <span id="user-info">
+            Login as <strong>&nbsp;&nbsp;<%= username %></strong>
+            <img src="/img/emp (23).png" alt="Profile Image">
+        </span>
+        <button id="logout-btn" onclick="logout()">
+            <img src="/img/output-onlinepngtools.png" alt="Logout Image">
+        </button>
+    </header>
+    <!-- collapsible submenus -->
+    <div class="container-fluid" id="employeedetails">        
+            <div class="row">
+                <div class="col-md-12 ">                    
+                        <!-- Display basic employee information -->
+                        <div class="container-fluid">
+                            <div class="row">
+                             <div class="col-md-2">  
+                            <img src="data:image/jpeg;base64,<%= employee.EMP_IMAGE.toString('base64') %>"
+                                alt="Employee Image" class="img-fluid rounded-circle mx-auto mb-4"
+                                style="width: 100px; height: 100px; background-color: gray;">
+                            </div> 
+                            <div class="col-md-4">
+                                <h2><%= employee.FIRST_NAME %> <%= employee.LAST_NAME %></h2>
+                                <h6><strong>Email:</strong> <%= employee.PERSONAL_EMAIL %></h6>
+                                <h6><strong>Designation:</strong> <%= employee.JOB_POSITION %></h6>
+                                <h6><strong>Department:</strong> <%= employee.DEPARTMENT %></h6>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- Create a tabbed interface for education and experience details -->
+                        <ul class="nav nav-tabs " id="myTabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="personal-tab" data-toggle="tab" href="#personal" role="tab"
+                                    aria-controls="personal" aria-selected="false"><%= __('PersonalDetails') %></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " id="education-tab" data-toggle="tab" href="#education"
+                                    role="tab" aria-controls="education" aria-selected="true"><%= __('Education') %></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="experience-tab" data-toggle="tab" href="#experience" role="tab"
+                                    aria-controls="experience" aria-selected="false"><%= __('Experience') %></a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" id="certification-tab" data-toggle="tab" href="#certification"
+                                    role="tab" aria-controls="certification" aria-selected="false"><%= __('certDet') %></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-3">
+                            <!-- Education Details Tab -->
+                            <div class="tab-pane fade  " id="education" role="tabpanel"
+                                aria-labelledby="education-tab">
+                                <!-- Display education details here -->
+                                <h3><%= __('EducationDetails') %></h3>
+                                <form id="educationForm" action="/updateEducationDetails/<%= employee.EMPLOYEE_ID %>"
+                                    method="post">
+                                    <% education.forEach((edu, index)=> { %>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="educationType"><%= __('EducationType') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="educationTypeInput<%= index %>" name="EDUCATION_TYPE"
+                                                    value="<%= edu.EDUCATION_TYPE %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="qualification"><%= __('Qualification') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="qualificationInput<%= index %>" name="QUALIFICATION"
+                                                    value="<%= edu.QUALIFICATION %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="universityName"><%= __('UniversityName') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="universityNameInput<%= index %>" name="UNIVERSITY_NAME"
+                                                    value="<%= edu.UNIVERSITY_NAME %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="instituteName"><%= __('InstituteName') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="instituteNameInput<%= index %>" name="INSTITUTE_NAME"
+                                                    value="<%= edu.INSTITUTE_NAME %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="yearOfPassing">Y<%= __('YearofPassing') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="yearOfPassingInput<%= index %>" name="YEAR_OF_PASSING"
+                                                    value="<%= edu.YEAR_OF_PASSING %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="instituteAddress"><%= __('InstituteAddress') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="instituteAddress<%= index %>" name="INSTITUTE_ADDRESS"
+                                                    value="<%= edu.INSTITUTE_ADDRESS %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="state1"><%= __('State') %>:</label>
+                                                <input type="text" class="form-control" id="state1<%= index %>"
+                                                    name="E_STATE" value="<%= edu.E_STATE %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="country"><%= __('Country') %>:</label>
+                                                <input type="text" class="form-control" id="country<%= index %>"
+                                                    name="COUNTRY" value="<%= edu.COUNTRY %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="startDate1"><%= __('StartDate') %>:</label>
+                                                <input type="date" class="form-control" id="startDate1<%= index %>"
+                                                    name="E_START_DATE" value="<%= (edu.E_START_DATE) %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="endDate1"><%= __('EndDate') %>:</label>
+                                                <input type="date" class="form-control" id="endDate1<%= index %>"
+                                                    name="E_END_DATE" value="<%= (edu.E_END_DATE) %>" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- Add more education details fields as needed -->
+                                        <% }); %>
+
+                                            <input type="hidden" name="EMPLOYEE_ID" value="<%= employee.EMPLOYEE_ID %>">
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="toggleEdit('education')"><%= __('Edit') %></button>
+                                                <button type="submit" class="btn"
+                                                    onclick="saveChanges('education', '<%= employee.EMPLOYEE_ID %>')"><%= __('SaveChanges') %></button>
+                                                <a href="/employeeProfileCard1" class="btn btn-primary"><%= __('Back') %></a>
+                                            </div>
+                                </form>
+                            </div>
+
+                            <!-- Experience Details Tab -->
+                            <div class="tab-pane fade" id="experience" role="tabpanel" aria-labelledby="experience-tab">
+                                <!-- Display experience details here -->
+                                <h3><%= __('ExperienceDetails') %></h3>
+                                <form id="experienceForm" action="/updateExperienceDetails/<%= employee.EMPLOYEE_ID %>"
+                                    method="post">
+                                    <% experience.forEach((exp, index)=> { %>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="firstName"><%= __('FirstName') %>:</label>
+                                                <input type="text" class="form-control" id="firstNameInput<%= index %>"
+                                                    name="FIRST_NAME" value="<%= exp.FIRST_NAME %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="lastName"><%= __('LastName') %>:</label>
+                                                <input type="text" class="form-control" id="lastNameInput<%= index %>"
+                                                    name="LAST_NAME" value="<%= exp.LAST_NAME %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="personalEmail"><%= __('PersonalEmail') %>:</label>
+                                                <input type="email" class="form-control"
+                                                    id="personalEmailInput<%= index %>"
+                                                    name="PERSONAL_EMAIL_<%= index %>" value="<%= exp.PERSONAL_EMAIL %>"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="previousCompanyName"><%= __('PreviousCompanyName') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="previousCompanyInput<%= index %>" name="PREVIOUS_COMPANY_NAME"
+                                                    value="<%= exp.PREVIOUS_COMPANY_NAME %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="designation"><%= __('Designation') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="designationInput<%= index %>" name="DESIGNATION"
+                                                    value="<%= exp.DESIGNATION %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="role"><%= __('Role') %>:</label>
+                                                <input type="text" class="form-control" id="roleInput<%= index %>"
+                                                    name="ROLE" value="<%= exp.ROLE %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="experience"><%= __('Experience') %>:</label>
+                                                <input type="text" class="form-control" id="experienceInput<%= index %>"
+                                                    name="EXPERIENCE" value="<%= exp.EXPERIENCE %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="companyAddress"><%= __('CompanyAddress') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="companyAddressInput<%= index %>" name="COMPANY_ADDRESS"
+                                                    value="<%= exp.COMPANY_ADDRESS %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="startDate"><%= __('StartDate') %>:</label>
+                                                <input type="date" class="form-control" id="startDateInput<%= index %>"
+                                                    name="START_DATE" value="<%= (exp.START_DATE) %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="endDate"><%= __('EndDate') %>:</label>
+                                                <input type="date" class="form-control" id="endDateInput<%= index %>"
+                                                    name="END_DATE" value="<%= (exp.END_DATE) %>" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- Add more experience details fields as needed -->
+                                        <% }); %>
+
+                                            <input type="hidden" name="EMPLOYEE_ID" value="<%= employee.EMPLOYEE_ID %>">
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="toggleEdit('experience')"><%= __('Edit') %></button>
+                                                <button type="submit" class="btn"
+                                                    onclick="saveChanges('experience', '<%= employee.EMPLOYEE_ID %>')"><%= __('SaveChanges') %></button>
+                                                <a href="/employeeProfileCard1" class="btn btn-primary"><%= __('Back') %></a>
+                                            </div>
+                                </form>
+                            </div>
+                            <!-- Personal Details Tab -->
+                            <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                                <!-- Display personal details here -->
+                                <h3><%= __('PersonalDetails') %></h3>
+                                <form id="personalForm" action="/updatePersonalDetails/<%= employee.EMPLOYEE_ID %>"
+                                    method="post">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="gender"><%= __('Gender') %>:</label>
+                                            <input type="text" class="form-control" id="genderInput" name="GENDER"
+                                                value="<%= employee.GENDER %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="birthDate"><%= __('BirthDate') %>:</label>
+                                            <input type="date" class="form-control" id="birthDateInput"
+                                                name="BIRTH_DATE" value="<%= employee.BIRTH_DATE %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="contactNumber"><%= __('ContactNumber') %>:</label>
+                                            <input type="text" class="form-control" id="contactNumberInput"
+                                                name="CONTACT_NUMBER" value="<%= employee.CONTACT_NUMBER %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="townofBirth"><%= __('TownOfBirth') %>:</label>
+                                            <input type="text" class="form-control" id="townofBirthInput"
+                                                name="TOWN_OF_BIRTH" value="<%= employee.TOWN_OF_BIRTH %>" readonly >
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="aadharCard"><%= __('AadharCardNumber') %>:</label>
+                                            <input type="text" class="form-control" id="aadharCardInput"
+                                                name="AADHAR_CARD" value="<%= employee.AADHAR_CARD %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="panCard"><%= __('PanCardNumber') %>:</label>
+                                            <input type="text" class="form-control" id="panCardInput" name="PAN_CARD"
+                                                value="<%= employee.PAN_CARD %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="mothertongue"><%= __('MotherTongue') %>:</label>
+                                            <input type="text" class="form-control" id="mothertongueInput"
+                                                name="MOTHER_TONGUE" value="<%= employee.MOTHER_TONGUE %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="disabled"><%= __('disabled') %>:</label>
+                                            <input type="text" class="form-control" id="disabledInput"
+                                                name="ANY_DISABLED" value="<%= employee.ANY_DISABLED %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="Address"><%= __('Address') %>:</label>
+                                            <input type="text" class="form-control" id="Address" name="CURRENT_ADDRESS"
+                                                value="<%= employee.CURRENT_ADDRESS %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="state2"><%= __('State') %>:</label>
+                                            <input type="text" class="form-control" id="state2" name="STATE"
+                                                value="<%= employee.STATE %>" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="country2"><%= __('Country') %>:</label>
+                                            <input type="text" class="form-control" id="country2" name="COUNTRY"
+                                                value="<%= employee.COUNTRY %>" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="toggleEdit('personal')"><%= __('Edit') %></button>
+                                        <button type="submit" class="btn"
+                                            onclick="saveChanges('personal', '<%= employee.EMPLOYEE_ID %>')"><%= __('SaveChanges') %></button>
+                                        <a href="/employeeProfileCard1" class="btn btn-primary"><%= __('Back') %></a>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Certification and Training Details Tab -->
+                            <div class="tab-pane fade" id="certification" role="tabpanel"
+                                aria-labelledby="certification-tab">
+                                <!-- Display certification details here -->
+                                <h3><%= __('certDet') %> </h3>
+                                <form id="certificationForm"
+                                    action="/updateCertificationDetails/<%= employee.EMPLOYEE_ID %>" method="post">
+                                    <% function formatDate(dateString) { %>
+                                        <% // Your date formatting logic goes here %>
+                                        <% const options = { year: 'numeric', month: '2-digit', day: '2-digit' }; %>
+                                        <% const formattedDate = new Date(dateString).toLocaleDateString(undefined, options); %>
+                                        <%= formattedDate %>
+                                    <% } %>
+                                    <% certification.forEach((cert, index)=> { %>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="certificationName"><%= __('CertificationName') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="certificationNameInput<%= index %>" name="CERTIFICATION_NAME"
+                                                    value="<%= cert.CERTIFICATION_NAME %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="organization"><%= __('Organization') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="organizationInput<%= index %>" name="ORGANIZATION"
+                                                    value="<%= cert.ORGANIZATION %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="completionDate"><%= __('CompletionDate') %>:</label>
+                                                <input type="date" class="form-control editable-date"
+                                                    id="completionDateInput<%= index %>" name="COMPLETION_DATE"
+                                                    value="<%= formatDate(cert.COMPLETION_DATE) %>" readonly>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="validityPeriod"><%= __('ValidityPeriod') %>:</label>
+                                                <input type="date" class="form-control editable-date"
+                                                    id="validityPeriodInput<%= index %>" name="VALIDITY_PERIOD"
+                                                    value="<%= formatDate(cert.VALIDITY_PERIOD) %>" readonly >
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="certificateNumber"><%= __('CertificateNumber') %>:</label>
+                                                <input type="text" class="form-control"
+                                                    id="certificateNumberInput<%= index %>" name="CERTIFICATE_NUMBER"
+                                                    value="<%= cert.CERTIFICATE_NUMBER %>" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- Add more certification details fields as needed -->
+                                        <% }); %>
+
+                                            <input type="hidden" name="EMPLOYEE_ID" value="<%= employee.EMPLOYEE_ID %>">
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="toggleEdit('certification')"><%= __('Edit') %> </button>
+                                                <button type="submit" class="btn"
+                                                    onclick="saveChanges('certification', '<%= employee.EMPLOYEE_ID %>')"><%= __('SaveChanges') %></button>
+                                                <a href="/employeeProfileCard1" class="btn btn-primary"><%= __('Back') %></a>
+                                            </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Your custom script for editing and saving data -->
+    <script>
+         console.log("Script loaded successfully!");
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
+            return formattedDate;
+        }
+ 
+        function toggleEdit(tab) {
+            const form = document.getElementById(`${tab}Form`);
+            const inputs = form.getElementsByTagName('input');
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].readOnly = !inputs[i].readOnly;
+            }
+        }
+
+        function saveChanges(tab, employeeId) {
+            const form = document.getElementById(`${tab}Form`);
+            const formData = new FormData(form);
+
+            fetch(`/update${tab}Details/${employeeId}`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(`Changes saved successfully for ${tab}:`, data);            
+                    // Optionally update the UI or show a success message
+                })
+                .catch(error => {
+                    console.error(`Error saving changes for ${tab}:`, error);
+                    // Optionally handle errors and show an error message
+                });
+        }
+    </script>
+    <script>
+        function logout() {
+            // You may want to perform additional logout actions (e.g., clearing session) here
+            window.location.href = '/'; // Redirect to the login page 
+        }
+    </script>
+</body>
+
+</html>

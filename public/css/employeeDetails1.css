@@ -1,0 +1,51 @@
+
+
+    /* Tab Styles */
+    .nav-tabs {
+        background-color: gray;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+
+    .nav-tabs .nav-item .nav-link {
+        color: white;
+    }
+
+    .nav-tabs .nav-item .nav-link.active {
+        background-color: rgb(79, 71, 71);
+        border-color: #0056b3;
+    }
+
+    /* Form Styles */
+    form {
+        margin-top: 10px;
+    }
+
+    .btn-primary,
+    .btn-success {
+        margin-right: 10px;
+    }
+
+    /* General Layout Styles */
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    h2 {
+        color: #007bff;
+        font-size: 20px;
+    }
+
+    h3 {
+        color: #28a745;
+        font-size: 20px;
+    }
+

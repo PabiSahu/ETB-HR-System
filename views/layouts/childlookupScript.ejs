@@ -1,0 +1,361 @@
+<!--fetch masterlookup value -->
+<script>
+    $(document).ready(function () {
+      // DataTable initialization without filtering, searching, info display, and pagination
+      $('#child-table').DataTable({
+        paging: false, // Disable pagination
+        searching: false, // Disable searching
+        info: false // Disable info display
+      });
+ 
+      // Fetch and display data in the child table based on masterValue
+      var masterValue = '<%= masterValue %>';
+      fetchChildData(masterValue);
+ 
+      function fetchChildData(masterValue) {
+        $.ajax({
+          url: '/childlookup/' + masterValue,
+          method: 'GET',
+          success: function (data) {
+            updateChildTable(data); // Update child table with fetched data
+          },
+          error: function (xhr, status, error) {
+            console.error('Error fetching child data:', error);
+          }
+        });
+      }
+ 
+      function updateChildTable(data) {
+        // Clear existing rows from child table
+        $('#child-table tbody').empty();
+ 
+        // Add fetched rows to child table
+data.forEach(function (row) {
+  var newRow = '<tr>' +
+    '<td><input type="checkbox"></td>' +
+    '<td>' + row.Child_Id + '</td>' +
+    '<td>' + row.Master_Lookup_values + '</td>' +
+    '<td><span class="editable-value">' + row.Lookup_Values + '</span></td>' +
+    '<td><button class="edit-row-btn btn btn-primary" style="font-size: 0.8rem"><i class="fas fa-edit"></i> <%= __('Edit') %> </button>' +
+    '<button class="save-row-btn btn btn-primary" style="display: none; font-size: 0.8rem;"><i class="fas fa-save"> </i><%= __('Save') %> </button></td>' +
+    '<td><button class="delete-row-btn btn btn-danger" style="font-size: 0.8rem;"><i class="fas fa-trash"></i> <%= __('Delete') %> </button></td>' +
+    '</tr>';
+  $('#child-table tbody').append(newRow);
+});
+ 
+      }
+    });
+ 
+  </script>
+ 
+  <!--insert the new row -->
+  <script>
+    $(document).ready(function () {
+      $('#add-row-btn').click(function () {
+        var masterValue = '<%= masterValue %>';
+        var newRow = '<tr>' +
+          '<td></td>' +
+          '<td></td>' +
+          '<td><input type="text" class="new-master-value" value="' + masterValue + '" readonly></td>' +
+          '<td><input type="text" class="new-lookup-values" placeholder="Lookup Values"><span class="error-message" style="color: red; display: none; font-size: 0.8rem;">Lookup Values are required</span></td>' +
+          '<td>' +
+          '<button class="submit-new-row">Submit</button>' +
+          '<i class="fas fa-times cancel-add-row" title="Cancel"></i>' +
+          '</td>' +
+          '</tr>';
+        $('#child-table tbody').prepend(newRow);
+      });
+ 
+      // Handle cancel adding new row
+      $('#child-table').on('click', '.cancel-add-row', function () {
+        $(this).closest('tr').remove();
+      });
+ 
+      // Handle submit new row
+      $('#child-table').on('click', '.submit-new-row', function () {
+        var $row = $(this).closest('tr');
+        var childId = $row.find('.new-child-id').val();
+        var masterValue = $row.find('.new-master-value').val();
+        var lookupValues = $row.find('.new-lookup-values').val();
+ 
+        // Validate lookup values
+        if (lookupValues.trim() === "") {
+          $row.find('.error-message').show();
+          return; // Prevent submission if lookup values are empty
+        } else {
+          $row.find('.error-message').hide();
+        }
+ 
+        // Perform AJAX request to insert new row to the database
+        $.ajax({
+          url: '/insert-child',
+          method: 'POST',
+          data: {
+            childId: childId,
+            masterLookupValues: masterValue,
+            lookupValues: lookupValues
+          },
+          success: function (data) {
+            // Reload child data after insertion
+            fetchChildData(masterValue);
+            // Optional: You can handle any UI updates or show success messages here
+          },
+          error: function (xhr, status, error) {
+            console.error('Error inserting new row:', error);
+            // Optional: You can handle error cases or show error messages here
+          }
+        });
+      });
+ 
+      // Function to fetch and update child data
+      function fetchChildData(masterValue) {
+        $.ajax({
+          url: '/childlookup/' + masterValue,
+          method: 'GET',
+          success: function (data) {
+            updateChildTable(data); // Update child table with fetched data
+          },
+          error: function (xhr, status, error) {
+            console.error('Error fetching child data:', error);
+          }
+        });
+      }
+ 
+      // Function to update child table
+      function updateChildTable(data) {
+        // Clear existing rows from child table
+        $('#child-table tbody').empty();
+ 
+        // Add fetched rows to child table
+        data.forEach(function (row) {
+          var newRow = '<tr><td><input type="checkbox"></td><td>' + row.Child_Id + '</td><td>' + row.Master_Lookup_values + '</td><td>' + row.Lookup_Values + '</td><td><button class="delete-row-btn"><i class="fas fa-trash"></i> Delete</button></td></tr>';
+          $('#child-table tbody').append(newRow);
+        });
+      }
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      // Handle single row deletion
+      $('#child-table').on('click', '.delete-row-btn', function () {
+        var row = $(this).closest('tr');
+        var childId = row.find('td:eq(1)').text(); // Get Child_Id from the second column
+        showDeleteConfirmation([childId]); // Pass the childId as an array
+      });
+ 
+      // Handle multiple row deletion
+      $('#delete-selected-rows-btn').click(function () {
+        var selectedRows = $('#child-table').find('input[type="checkbox"]:checked');
+        var childIds = [];
+        selectedRows.each(function () {
+          var childId = $(this).closest('tr').find('td:eq(1)').text(); // Get Child_Id from the second column
+          childIds.push(childId);
+        });
+        showDeleteConfirmation(childIds); // Pass the array of childIds
+      });
+ 
+      function showDeleteConfirmation(rowIds) {
+        if (confirm('Are you sure you want to delete the selected row(s)?')) {
+          // User clicked OK, proceed with deletion
+          deleteRows(rowIds);
+        }
+      }
+ 
+      function deleteRow(childId) {
+        $.ajax({
+          url: '/delete-child/' + childId,
+          method: 'DELETE',
+          success: function (data) {
+            // Reload the current page
+            window.location.reload();
+          },
+          error: function (xhr, status, error) {
+            console.error('Error deleting row:', error);
+          }
+        });
+      }
+ 
+      function deleteRows(childIds) {
+        // Loop through each childId and delete the corresponding row
+        childIds.forEach(function (childId) {
+          deleteRow(childId);
+        });
+      }
+    });
+  </script>
+  <script>
+    // Handle form submission
+    $('#masterForm').submit(function (event) {
+      event.preventDefault(); // Prevent default form submission
+ 
+      // Serialize form data
+      var formData = $(this).serialize();
+ 
+      // Send AJAX request to store data into master table
+      $.ajax({
+        url: '/submitForm',
+        method: 'POST',
+        data: formData,
+        success: function (response) {
+          // Handle success response
+          console.log('Data stored successfully:', response);
+          // Optional: You can redirect the user to another page or show a success message here
+        },
+        error: function (xhr, status, error) {
+          // Handle error response
+          console.error('Error storing data:', error);
+          // Optional: You can show an error message to the user here
+        }
+      });
+    });
+  </script>
+  <!--handling cancel and delete button-->
+  <script>
+    $(document).ready(function () {
+      // Cancel button click event handler
+      $('#cancelButton').click(function () {
+        // Redirect to 'lookup.ejs' page
+        window.location.href = '/lookup';
+      });
+    });
+ 
+  </script>
+  <script>
+    $(document).ready(function () {
+      // Handle delete button click event
+      $('#deleteButton').click(function () {
+        // Display confirmation dialog
+        var confirmed = confirm("Are you sure you want to delete the selected row?");
+        // If user confirms deletion
+        if (confirmed) {
+          // Get the masterValue from your template
+          var masterValue = '<%= masterValue %>';
+          // Make AJAX request to delete the master data
+          $.ajax({
+            url: '/delete-master/' + masterValue,
+            method: 'DELETE',
+            success: function (data) {
+              console.log('Delete operation successful:', data);
+              // Redirect to the lookup page after successful deletion
+              window.location.href = '/lookup';
+            },
+            error: function (xhr, status, error) {
+              console.error('Error deleting master:', error);
+              // Handle error case if needed
+            }
+          });
+        }
+      });
+    });
+ 
+  </script>
+  <!--script for hide and show-->
+  <script>
+    $(document).ready(function () {
+      // Conditionally hide buttons based on masterValue presence
+      var masterValue = '<%= masterValue %>';
+      if (!masterValue) {
+        $('#addButton').hide();
+   
+        $('#deleteButton').hide();
+      } else {
+       
+        $('#submitButton').hide();
+      }
+ 
+      // ... (other scripts)
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      // ... (existing scripts)
+ 
+      // Handle "Add" button click event
+      $('#addButton').click(function () {
+        // Redirect to the same page with blank fields
+        window.location.href = '/childlookup?masterValue=&descriptions=&status=';
+      });
+    });
+  </script>
+  <script>
+    // Function to toggle between edit and save modes
+function toggleEditMode() {
+    $('#editButton').toggle();
+    $('#saveButton').toggle();
+    $('#masterValue').prop('readonly', function(_, attr) { return !attr; }); // Enable/disable input
+    $('#descriptions').prop('', function(_, attr) { return !attr; }); // Enable/disable input
+    $('#status').prop('', function(_, attr) { return !attr; }); // Enable/disable input
+}
+ 
+// Handle edit button click event
+$('#editButton').click(function () {
+    toggleEditMode();
+});
+ 
+// Handle save button click event
+$('#saveButton').click(function () {
+    // Get updated values from input fields
+    var masterValue = $('#masterValue').val();
+    var descriptions = $('#descriptions').val();
+    var status = $('#status').val();
+ 
+    // Send AJAX request to update master_lookup data
+    $.ajax({
+        url: '/update-master',
+        method: 'PUT',
+        data: {
+            masterValue: masterValue,
+            descriptions: descriptions,
+            status: status
+        },
+        success: function (response) {
+            // Handle success response
+            console.log('Data updated successfully:', response);
+            // Optional: You can show a success message here
+            toggleEditMode(); // Toggle back to edit mode
+        },
+        error: function (xhr, status, error) {
+            // Handle error response
+            console.error('Error updating data:', error);
+            // Optional: You can show an error message to the user here
+        }
+    });
+});
+ 
+  </script>
+ 
+<script>
+ // Event listener for dynamically added "Edit" buttons
+$('#child-table').on('click', '.edit-row-btn', function () {
+    var row = $(this).closest('tr');
+    row.find('.editable-value').attr('contenteditable', 'true');
+    row.find('.edit-row-btn').hide();
+    row.find('.save-row-btn').show();
+});
+ 
+// Event listener for dynamically added "Save" buttons
+$('#child-table').on('click', '.save-row-btn', function () {
+    var row = $(this).closest('tr');
+    var childId = row.find('td:nth-child(2)').text(); // Get Child_Id from the second column
+    var masterLookupValues = row.find('td:nth-child(3)').text();
+    var lookupValues = row.find('.editable-value').text();
+   
+    // Perform AJAX request to save the changes
+    $.ajax({
+        url: '/update-child',
+        method: 'POST',
+        data: {
+            childId: childId,
+            masterLookupValues: masterLookupValues,
+            lookupValues: lookupValues
+        },
+        success: function (response) {
+            // Reload the page upon successful update
+            window.location.reload();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error updating values:', error);
+        }
+    });
+}); 
+</script> 

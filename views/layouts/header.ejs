@@ -1,0 +1,218 @@
+<!-- header.ejs -->
+
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- Your other head elements go here -->
+  <style>
+    /* Modal Styling */
+#employeeProfileModal {
+  width: 20%;
+  transform: translate(380%, 0);
+  background: none;
+  margin-top: 25px;
+}
+
+.modal-content {
+  border-radius: 15px;
+}
+
+.modal-header {
+  border-bottom: 1px solid white;
+  border-radius: 5px 5px 0 0;
+  background-color: #d1d1d1;
+  overflow: hidden;
+  color: black;
+}
+
+.modal-body {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: white;
+  color: black;
+  
+}
+
+/* Background Color Gradient */
+#employeeProfileModal::before {
+  content: '';
+  position: fixed;
+  top: 10px;
+  left: 0;
+  width: 100%;
+  height: 50%; 
+  z-index: -1;
+}
+
+/* Image Styling */
+.modal-body img {
+  border: 2px solid #2f10cb;
+  border-radius: 30%;
+  height: 70px;
+  width :70px;
+}
+
+/* Text Styling */
+.modal-body h6 {
+font-size: 14px;
+}
+.modal-body h4 {
+font-size: 18px;
+}
+/* Optional: Adjust button styles if needed */
+.modal-footer {
+  border-top: 1px solid white;
+  border-radius: 0 0 5px 5px;
+  background-color: #d1d1d1;
+  color: white;
+}
+/* Example: Close button styling */
+.modal-footer button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+/* Example: Close button hover effect */
+.modal-footer button:hover {
+  background-color: #0056b3;
+}
+#employeeProfileModalLabel{
+   white-space: nowrap; 
+   overflow: hidden; 
+   text-overflow: ellipsis;
+   background-color: none;
+}
+.card1 {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+#imagecolor {
+  background: linear-gradient(to bottom, #1634cd 70%, white 50%);
+  text-align: center;
+  padding: 15px;
+}
+
+.card-img-top {
+  border: 2px solid #2f10cb;
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  margin-top: 70px; /* Adjust as needed to center the image */
+}
+
+.card-body1 {
+  text-align: center;
+  width: 200px;
+}
+
+.card-title1 {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.card-text1 {
+  margin-bottom: 5px;
+  text-align: left;
+  padding-left: 5px;
+  font-size: 14px;
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container-fluid1">
+      <div class="row">
+        <div class="logo-container column-md-3 mt-1">
+          <button id="toggle-sidebar-btn" onclick="toggleSidebar()" style="background-color:#1f3559 ;color:white;">
+            ☰ <!-- This is the symbol for the navigation menu -->
+          </button>
+          <a href="/home" style="margin-top: 0px;">
+            <img src="img/etb.png" alt="Company Logo" class="logo1">            
+          </a>
+        </div>
+        <div class="column-md-3 offset-md-6" id="user-info">
+          <span>Login as <strong>&nbsp;&nbsp;<%= username %></strong></span>
+          <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#employeeProfileModal">
+            Open Employee Profile
+          </button>
+          <img src="/img/emp (23).png" alt="Profile Image"> -->
+          <img src="/img/emp (23).png" alt="Profile Image" id="openModalImage">
+        </div>
+        <button id="logout-btn" onclick="logout()">
+          <img src="img/output-onlinepngtools.png" alt="Logout Image">
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Modal for Employee Profile -->
+  <div class="modal fade" id="employeeProfileModal" tabindex="-1" role="dialog" aria-labelledby="employeeProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <!-- Add your modal content here, you can use Bootstrap classes for styling -->
+        <div class="modal-header" >
+          <h6 class="modal-title"id="employeeProfileModalLabel">eTranBiz Global Technologies Pvt. Ltd.</h6>
+          <!-- <h5 class="modal-title" id="employeeProfileModalLabel">eTranBiz Global Technologies Pvt. Ltd.</h5> -->
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: black;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" >
+          <div class="card1">
+          <div id="imagecolor">
+          <img src="data:image/jpeg;base64, <%= employeeDetails.EMP_IMAGE_BASE64 %>" alt="Employee Image" class="img-fluid rounded-circle mx-auto" >
+        </div>
+          <!-- <p><strong>Employee ID:</strong> <%= employeeDetails && employeeDetails.EMPLOYEE_ID %></p> -->
+          <div class="card-body1">
+            <h4 class="card-title1"><strong><%= employeeDetails && employeeDetails.FIRST_NAME %> <%= employeeDetails && employeeDetails.LAST_NAME %></strong></h4>
+            <p class="card-text1"><strong>Email:</strong> <%= employeeDetails && employeeDetails.OFFICE_EMAIL %></p>
+            <p class="card-text1"><strong>Contact no.:</strong> <%= employeeDetails && employeeDetails.CONTACT_NUMBER %></p>
+            <p class="card-text1"><strong>Department:</strong> <%= employeeDetails && employeeDetails.DEPARTMENT %></p>
+            <p class="card-text1"><strong>Job Position:</strong> <%= employeeDetails && employeeDetails.JOB_POSITION %></p>
+            <p class="card-text1"><strong>Job Location:</strong> <%= employeeDetails && employeeDetails.JOB_LOCATION %></p>
+            <!-- Add more fields as needed -->
+      
+            <!-- Add more buttons or content for the footer as needed -->
+          </div>
+        </div>
+          <!-- Add more fields as needed -->
+        </div>
+        <div class="modal-footer">
+          <!-- Add more buttons or content for the footer as needed -->
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JS at the end of the body -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script>
+    // JavaScript to open modal when clicking on the image
+    $(document).ready(function() {
+      $('#openModalImage').click(function() {
+        $('#employeeProfileModal').modal('show');
+      });
+    });
+  </script>
+</body>
+</html>

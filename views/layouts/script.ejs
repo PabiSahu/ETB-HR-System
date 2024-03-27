@@ -1,0 +1,52 @@
+<script>
+    function toggleSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('hidden'); // Toggle the 'hidden' class to show/hide the sidebar
+    }
+    function openModal(modalId) {
+      var modal = document.getElementById(modalId);
+      modal.style.display = 'flex';
+    }
+ 
+    function closeModal(modalId) {
+      var modal = document.getElementById(modalId);
+      modal.style.display = 'none';
+    }
+ 
+    // Handle close icon clicks within the modal
+    document.addEventListener('click', function (event) {
+      if (event.target.classList.contains('close-icon')) {
+        closeModal(getModalIdFromEvent(event));
+      }
+    });
+ 
+    function getModalIdFromEvent(event) {
+      var modal = event.target.closest('.modal');
+      return modal ? modal.id : null;
+    }
+ 
+    // script/Script.js
+    function logout() {
+      // You may want to perform additional logout actions (e.g., clearing session) here
+      window.location.href = '/'; // Redirect to the login page
+    }
+ 
+    // Handle collapse/expand of menu items
+    $('.collapsible').hide();
+ 
+    $('.top-tier').click(function (e) {
+      $(this).next('.collapsible').toggle();
+    });
+ 
+    // Handle collapse/expand of User and Responsibility sections
+    $('#system-administrator').click(function (e) {
+      $('#user-section').toggle();
+      $('#responsibility-section').toggle();
+    });
+ 
+    // Handle collapse/expand of Define and Monitor sections under User
+    $('#user').click(function (e) {
+      $('#user-define').toggle();
+    }); 
+  </script>
+  

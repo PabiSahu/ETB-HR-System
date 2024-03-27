@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= __('Responsibility Form') %></title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="css/responsibility.css"> -->
+  <link rel="stylesheet" href="css/style1.css">
+  <!-- <link rel="stylesheet" href="css/home.css"> -->
+</head>
+
+<body>
+  <%- include('layouts/header1');-%>
+  <%- include('layouts/naviMenu');-%>
+  <div class="container-fluid">
+      <div class="row">
+        <%- include('layouts/sidebar');-%>
+        <div class="col-md-8">
+          <div class="container mt-4" id="header">
+            <h5><%= __('Responsibility Form') %></h5>
+            <form id="ResponsibilityForm" action="/insertResponsibilityData" method="post">
+              <!-- Name Input -->
+              <div class="form-group row">
+                <label for="responsibility" class="col-sm-4 col-form-label"><%= __('Responsibility') %>:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="responsibility" name="RESPONSIBILITY_NAME" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="rolename" class="col-sm-4 col-form-label"><%= __('RoleName') %>:</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="rolename" name="ROLE_NAME" required style="border-color: black;">
+                    <% if (roleNames) { %>
+                      <% roleNames.forEach(role=> { %>
+                        <option value="<%= role %>">
+                          <%= role %>
+                        </option>
+                        <% }); %>
+                          <% } %>
+                  </select>
+                </div>
+              </div>
+              <!-- Email Input -->
+              <div class="form-group row">
+                <label for="description" class="col-sm-4 col-form-label"><%= __('descriptions') %>:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="description" name="DESCRIPTION">
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn "><%= __('Submit') %></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Bootstrap JS and Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <%- include('layouts/script');-%>
+</body>
+</html>

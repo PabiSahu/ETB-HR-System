@@ -1,0 +1,304 @@
+<!-- home.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= ('home') %>
+  </title>
+  <link rel="stylesheet" href="css/style1.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- Header and Navigation Menu -->
+  <%- include('layouts/header2');-%>
+    <%- include('layouts/naviMenu');-%>
+
+      <div class="container-fluid">
+        <div class="row">
+          <!-- Left Sidebar -->
+          <div class="col-md-3">
+            <%- include('layouts/sidebar');-%>
+          </div>
+
+          <!-- Main Content Area -->
+          <div class="col-md-8">
+            <div class="container-fluid10 dB_h5">
+              <!-- Employee Information Chart -->
+              <div class="row">
+                <div class="col-md-7">
+                  <h5>Employee Information</h5>
+                  <div class="container-fluid chart-container">
+                    <div class="row">
+                      <div class="col-md-9">
+                        <canvas id="employeeInfoChart" width="500" height="400"></canvas>
+                        <script>
+                          var ctxEmployeeInfo = document.getElementById('employeeInfoChart').getContext('2d');
+                          var employeeInfoChart = new Chart(ctxEmployeeInfo, {
+                            type: 'bar',
+                            data: {
+                              labels: [<% employeeData.forEach(employee => { %> '<%= employee.DEPARTMENT %>', <% }) %>],
+                              datasets: [{
+                                label: 'Number of Employees',
+                                data: [<% employeeData.forEach(employee => { %><%= employee.NUM_EMPLOYEES %>, <% }) %>],
+                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1,
+                              }],
+                            },
+                            options: {
+                              scales: {
+                                y: {
+                                  beginAtZero: true,
+                                  max: 4, // Set the maximum value for the y-axis
+                                  stepSize: 2, // Set the step size between labels
+                                  callback: function (value, index, values) {
+                                    if (value % 2 === 0 || value === 30) {
+                                      return value;
+                                    }
+                                    return null; // Hide labels for odd values (customize as needed)
+                                  },
+                                },
+                              },
+                            },
+                          });
+                        </script>
+                      </div>
+                      <div class="col-md-2 border-box">
+                        <p class="border-box-item" style="color:darkblue;font-weight: bold; ">Total Employees
+                          <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;">
+                            <%= totalEmployees %>
+                          </strong>
+                        </p>
+                        <p class="border-box-item" style="color:teal;font-weight: bold;">Total Interns
+                          <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;">
+                            <%= totalInterns %>
+                          </strong>
+                        </p>
+                        <p class="border-box-item" style="color:darkmagenta;font-weight: bold;">Working Employees
+                          <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;">
+                            <%= workingEmployees %>
+                          </strong>
+                        </p>
+                        <p class="border-box-item" style="color:darkslategray;font-weight: bold;">Resigned Employees
+                          <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;">
+                            <%= resignedEmployees %>
+                          </strong>
+                        </p>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <h5>Leave Management</h5>
+                  <div class="container-fluid chart-container">
+                    <div class="row">
+                      <div class="col-md-9">
+
+                        <select id="timePeriod" onchange="updateLeaveChart()" style="height: 22px; font-size: 11px;">
+                          <option value="currentWeek">Current Week</option>
+                          <option value="nextWeek">Next Week</option>
+                          <option value="lastWeek">Last Week</option>
+                        </select>
+                        <canvas id="leaveManagementChart" width="200" height="50"></canvas>
+                        <script>
+                          var leaveManagementChart;
+
+                          // Function to initialize and update the leave chart
+                          function initAndUpdateLeaveChart() {
+                            updateLeaveChart(); // Update chart for the default week (current week)
+                          }
+
+                          // Function to update the leave chart based on the selected time period
+                          function updateLeaveChart() {
+                            var selectedTimePeriod = document.getElementById('timePeriod').value;
+
+                            $.ajax({
+                              url: `/leaveData?timePeriod=${selectedTimePeriod}`,
+                              method: 'GET',
+                              success: function (data) {
+                                if (data.length === 0) {
+                                  // No one has taken leave, show a pie chart indicating all employees are present
+                                  if (leaveManagementChart) {
+                                    leaveManagementChart.destroy(); // Destroy the existing chart if it exists
+                                  }
+
+                                  var ctxLeaveManagement = document.getElementById('leaveManagementChart').getContext('2d');
+                                  leaveManagementChart = new Chart(ctxLeaveManagement, {
+                                    type: 'pie',
+                                    data: {
+                                      labels: ['All Employees Present'],
+                                      datasets: [{
+                                        data: [100], // 100% for all employees present
+                                        backgroundColor: ['rgba(0, 128, 255)'], // Use blue color or any color you prefer
+                                        borderColor: ['rgba(0, 51, 102)'],
+                                        borderWidth: 1,
+                                      }],
+                                    },
+                                  });
+                                } else {
+                                  // Some employees have taken leave, display the pie chart with leave data
+                                  if (!leaveManagementChart) {
+                                    var ctxLeaveManagement = document.getElementById('leaveManagementChart').getContext('2d');
+                                    leaveManagementChart = new Chart(ctxLeaveManagement, {
+                                      type: 'pie',
+                                      data: {
+                                        labels: data.map(employee => employee.EMPLOYEE_NAME),
+                                        datasets: [{
+                                          label: 'Total Days of Leave',
+                                          data: data.map(employee => employee.totalDays),
+                                          backgroundColor: generateColors(data.length),
+                                          borderColor: generateColors(data.length, true),
+                                          borderWidth: 1,
+                                        }],
+                                      },
+                                    });
+                                  } else {
+                                    leaveManagementChart.data.labels = data.map(employee => employee.EMPLOYEE_NAME);
+                                    leaveManagementChart.data.datasets[0].data = data.map(employee => employee.totalDays);
+                                    // Update colors only if someone has taken leave
+                                    if (data.some(employee => employee.totalDays > 0)) {
+                                      leaveManagementChart.data.datasets[0].backgroundColor = generateColors(data.length);
+                                      leaveManagementChart.data.datasets[0].borderColor = generateColors(data.length, true);
+                                    }
+                                    leaveManagementChart.update();
+                                  }
+                                }
+                              },
+                              error: function (error) {
+                                console.error(error);
+                              }
+                            });
+                          }
+
+                          // Function to generate dynamic colors based on the number of employees
+                          function generateColors(count, withBorder = false) {
+                            const colors = [];
+                            for (let i = 0; i < count; i++) {
+                              const color = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.6)`;
+                              colors.push(color);
+                            }
+                            if (withBorder) {
+                              return colors.map(color => color.replace('0.1', '1'));
+                            }
+                            return colors;
+                          }
+
+                          // Initialize and update leave chart on page load
+                          document.addEventListener('DOMContentLoaded', initAndUpdateLeaveChart);
+                        </script>
+                      </div>
+                      <div class="col-md-2 border-box">
+                        <p class="border-box-item" style="color: darkblue; font-weight: bold;">
+                          <!-- <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;"> -->
+                          <% if (absentemployees && absentemployees.length> 0) { %>
+                            <% absentemployees.forEach(employee=> { %>
+                              <%= employee.EMPLOYEE_NAME %><br>
+                                <% }); %>
+                                  <% } else { %>
+                                    <p class="border-box-item"
+                                      style="color: darkblue; font-weight: bold; margin-top: 200% ;"> Today all are
+                                      Present
+                                    <p>
+                                      <% } %>
+                                        <!-- </strong> -->
+                                    </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-10 offset-md-1">
+                  <h5>Timecard</h5>
+                  <div class="row">
+                    <div class="col-md-9">
+                      <div class="container-fluid chart-container">
+                        <select id="weekSelector" onchange="updateChart()" style="height: 22px; font-size: 11px;">
+                          <option value="current">Current Week</option>
+                          <option value="last">Last Week</option>
+                        </select>
+                        <canvas id="timecardChart" width="200" height="100"></canvas>
+                    
+
+                  <script>
+                    function updateChart() {
+                      fetch('/data')
+                        .then(response => response.json())
+                        .then(data => {
+                          timecardChart.data.labels = data.labels;
+                          timecardChart.data.datasets[0].data = data.data;
+                          timecardChart.update();
+                        });
+                    }
+
+                    var ctxTimecard = document.getElementById('timecardChart').getContext('2d');
+                    var timecardChart = new Chart(ctxTimecard, {
+                      type: 'line',
+                      data: {
+                        labels: [],
+                        datasets: [{
+                          label: 'Worked Total Hours',
+                          data: [],
+                          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                          borderColor: 'rgba(255, 99, 132, 1)',
+                          borderWidth: 1,
+                          tension: 0.1,
+                        }],
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                            beginAtZero: true,
+                          },
+                        },
+                      },
+                    });
+
+                    // Update the chart initially
+                    updateChart();
+                  </script>
+                    </div>
+                  </div>            
+                <div class="col-md-2 border-box">
+                  <p class="border-box-item" style="color:darkblue;font-weight: bold; ">Total Timesheet
+                    <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;">
+                    
+                    </strong>
+                  </p>
+                  <p class="border-box-item" style="color:teal;font-weight: bold;">Approved Timesheet
+                    <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;"> 
+                                  
+                    </strong>
+                  </p>
+                  <p class="border-box-item" style="color:darkmagenta;font-weight: bold;">Rejected Timesheet
+                    <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;">
+                    
+                    </strong>
+                  </p>
+                  <p class="border-box-item" style="color:darkslategray;font-weight: bold;"> sumbitted timesheet
+                    <strong style="font-size: 20px; font-weight: bold; margin-left: 45%;">                
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+             </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+      <!-- Right Sidebar -->
+      <!-- Script code -->
+      <%- include('layouts/script');-%>
+</body>
+</html>

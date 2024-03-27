@@ -1,0 +1,21 @@
+<header>
+    <div class="container-fluid1">
+      <div class="row">
+        <div class="logo-container column-md-3 mt-1">
+          <button id="toggle-sidebar-btn" onclick="toggleSidebar()" style="background-color:#1f3559 ;color:white;">
+            ☰ <!-- This is the symbol for the navigation menu -->
+          </button>
+          <a href="/home" style="margin-top: 0px;">
+            <img src="img/etb.png" alt="Company Logo" class="logo1">            
+          </a>
+        </div>
+        <div class="column-md-3 offset-md-6" id="user-info">
+          <span>Login as <strong>&nbsp;&nbsp;<%= username %></strong></span>
+          <img src="/img/emp (23).png" alt="Profile Image">
+        </div>
+        <button id="logout-btn" onclick="logout()">
+          <img src="img/output-onlinepngtools.png" alt="Logout Image">
+        </button>
+      </div>
+    </div>
+  </header>

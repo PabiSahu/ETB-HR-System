@@ -1,0 +1,145 @@
+<div class="col-md-3" id="sidebar">
+    <div class="tiered-menu border_container">
+      <div class="home_div">
+        <h3><%= __('Navigator') %></h3>
+      </div>
+      <!-- <button class="personalize_btn"><%= __('Personalize') %></button> -->
+      <div class="custom-dropdown sub-dropdown">
+        <button class="btn" id="settings-dropdown-btn" data-bs-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" style="display: none;"><%= __('Personalize') %>        
+        </button>
+        <div class="sub-dropdown-content dropdown-menu" aria-labelledby="settings-dropdown-btn">
+          <a class="dropdown-item" href="#" onclick="selectTheme('Theme 1')">Theme 1</a>
+          <a class="dropdown-item" href="#" onclick="selectTheme('Theme 2')">Theme 2</a> 
+          <a class="dropdown-item" href="#" onclick="selectTheme('Theme 3')">Theme 3</a> 
+        </div>
+      </div>
+      <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;<%= __('SystemAdministrator') %></a>
+    <div class="collapsible">
+      <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;<%= __('User') %></a>
+      <div class="collapsible">
+        <a href="/UserRegister"><%= __('CreateUsers') %></a>
+        <a href="/getAllData"><%= __('MonitorUsers') %></a>
+      </div>
+      
+      <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+          alt=""></img>&nbsp;<%= __('Responsibility') %></a>
+      <div class="collapsible">
+        <a href="/responsibility"><%= __('DefineResponsibility') %></a>
+        <a href="/getTableData"><%= __('MonitorResponsibility') %></a>
+      </div>
+
+      <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+        alt=""></img>&nbsp;<%= __('User Roles') %></a>
+    <div class="collapsible">  
+      <a href="/UserRole"><%= __('Assign Role') %></a>
+      <a href="/userRoleDetails"><%= __('User Role Details') %></a>
+    </div>
+
+      <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+        alt=""></img>&nbsp; <%= __('Function') %></a>
+    <div class="collapsible">  
+      <a href="/Function"><%= __('Function') %> </a>
+      <a href="/functionDetails"><%= __('Function Details') %></a>
+    </div>
+      <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+        alt=""></img>&nbsp; <%= __('Menu') %></a>
+    <div class="collapsible">  
+      <a href="/Menu"><%= __('Menu') %> </a>
+      <a href="/menuDetails"> <%=__('Menu Details') %> </a>
+    </div>
+      <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+        alt=""></img>&nbsp;<%= __('Lookups') %></a>
+    <div class="collapsible">
+      <a href="/Lookup"><%= __('Master Lookup') %></a>
+    </div>
+    </div>
+      <div class="tiered-menu">
+        <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;<%= __('HumanResourceManagementSystem') %></a>
+        <div class="collapsible">
+          <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+              alt=""></img>&nbsp;<%= __('EmployeeInfomation') %></a>
+          <div class="collapsible">
+            <a href="/employeeCreation"><%= __('CreateEmployees') %></a>
+            <a href="/employeeProfileCard1"><%= __('VeiwEmployee') %></a>
+          </div>       
+        </div>
+        <div class="tiered-menu">
+          <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;<%= __('LeaveManagementSystem') %></a>
+          <div class="collapsible">
+            <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+                alt=""></img>&nbsp;<%= __('LMS') %></a>
+            <div class="collapsible">
+              <a href="/leaveDetails"><%= __('ViewLeaveDet') %></a>
+              <a href="/leaveApproval"><%= __('leaveApproval') %></a>
+            </div>
+          </div>
+          <div class="tiered-menu">
+            <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;<%= __('TimeSheetManagementSystem') %></a>
+            <div class="collapsible">
+              <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+                  alt=""></img>&nbsp;<%= __('TMS') %></a>
+              <div class="collapsible">
+                <a href="/create-time-card"><%= __('CreateTimeCard') %></a>
+                <a href="/getupdateTimeCard"><%= __('ApprovalTimeCard') %></a>
+                <a href="/getCardData"><%= __('ViewTimeSheets') %> </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Check for saved theme in local storage
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+      selectTheme(savedTheme);
+    }
+  
+    function selectTheme(theme) {
+      // Add logic to dynamically change CSS variables based on the selected theme
+      if (theme === 'Theme 1') {
+        document.documentElement.style.setProperty('--primary-color', '#fff7db');
+        document.documentElement.style.setProperty('--secondary-color', '#fff');
+        document.documentElement.style.setProperty('--header-color', '#ffea00');
+        document.documentElement.style.setProperty('--menu-Burger', '#ffd600');
+        document.documentElement.style.setProperty('--button-hover', 'orange');
+        document.documentElement.style.setProperty('--button-color', 'yellow');
+        document.documentElement.style.setProperty('--btn-font-color', 'black');
+        document.documentElement.style.setProperty('--firstPie-color','#ffff00');
+        document.documentElement.style.setProperty('--secondPie-color','#ffeb3b');
+        document.documentElement.style.setProperty('--thirdPie-color','#ffd700');
+      } else if (theme === 'Theme 2') {
+        document.documentElement.style.setProperty('--primary-color', '#ccc');
+        document.documentElement.style.setProperty('--secondary-color', '#ddd');
+        document.documentElement.style.setProperty('--header-color', '#1f3559');
+        document.documentElement.style.setProperty('--menu-Burger', '#4068a9');
+        document.documentElement.style.setProperty('--button-hover', '#38d39f');
+        document.documentElement.style.setProperty('--button-color', '#3F51B5');
+        document.documentElement.style.setProperty('--btn-font-color', 'white');
+  
+        document.documentElement.style.setProperty('--firstPie-color','#00e6e6');
+        document.documentElement.style.setProperty('--secondPie-color','#80dfff');
+        document.documentElement.style.setProperty('--thirdPie-color','#0099cc');
+  
+      }
+      else if (theme === 'Theme 3') {
+        document.documentElement.style.setProperty('--primary-color', '#ccc');
+        document.documentElement.style.setProperty('--secondary-color', '#ddd');
+        document.documentElement.style.setProperty('--header-color', 'teal' );    // or 'black'
+        document.documentElement.style.setProperty('--menu-Burger', 'teal');
+        document.documentElement.style.setProperty('--button-hover', '#ffcc00');
+        document.documentElement.style.setProperty('--button-color', '#121212');
+        document.documentElement.style.setProperty('--btn-font-color', 'white');
+   
+        document.documentElement.style.setProperty('--firstPie-color','#00e6e6');
+        document.documentElement.style.setProperty('--secondPie-color','#80dfff');
+        document.documentElement.style.setProperty('--thirdPie-color','#0099cc');
+  
+      }
+  
+      // Save selected theme to local storage
+      localStorage.setItem('selectedTheme', theme);
+    }
+  </script>

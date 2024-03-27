@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Details</title>
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/employeeDetails.css">
+  <link rel="stylesheet" href="css/style1.css">
+  <!-- <link rel="stylesheet" href="css/home.css"> -->
+</head>
+<body>
+  <header>
+    <div>
+      <a href="/home" style="margin-top: 0px;">
+        <img src="img/etb.png" alt="Company Logo" class="logo1">
+      </a>
+    </div>
+
+    <span id="user-info">
+      Login as <strong>&nbsp;&nbsp;<%= username %></strong>
+      <img src="/img/emp (23).png" alt="Profile Image">
+    </span>
+    <button id="logout-btn" onclick="logout()">
+      <img src="img/output-onlinepngtools.png" alt="Logout Image">
+    </button>
+  </header>
+  <!-- collapsible submenus -->
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="tiered-menu border_container">
+            <div class="home_div">
+              <h3>Navigator</h3>
+            </div>
+            <button class="personalize_btn" style="display: none;">Personalize</button>
+            <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;System
+              Administrator</a>
+            <div class="collapsible">
+              <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;User</a>
+              <div class="collapsible">
+                <a href="/UserRegister">Define</a>
+                <a href="/getAllData">Monitor</a>
+              </div>
+              <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+                  alt=""></img>&nbsp;Responsibility</a>
+              <div class="collapsible">
+                <a href="/responsibility">Define</a>
+                <a href="/getTableData">Monitor</a>
+              </div>
+              <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+                  alt=""></img>&nbsp;Application</a>
+              <div class="collapsible">
+                <a href="/Function">Function</a>
+                <a href="/Menu">Menu</a>
+              </div>
+            </div>
+            <div class="tiered-menu">
+              <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;Human
+                Resource Management System</a>
+              <div class="collapsible">
+                <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;Employee
+                  Infomation</a>
+                <div class="collapsible">
+                  <a href="/employeeCreation">Define</a>
+                  <a href="/employeeProfileCard1">Monitor</a>
+                </div>
+              </div>
+              <div class="tiered-menu">
+                <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;Leave
+                  Management System</a>
+                <div class="collapsible">
+                  <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+                      alt=""></img>&nbsp;User</a>
+                  <div class="collapsible">
+                    <a href="#">Define</a>
+                    <a href="#">Monitor</a>
+
+                  </div>
+                  <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+                      alt=""></img>&nbsp;Responsibility</a>
+                  <div class="collapsible">
+                    <a href="#">Define</a>
+                    <a href="#">Monitor</a>
+                  </div>
+                  <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png"
+                      alt=""></img>&nbsp;Application</a>
+                  <div class="collapsible">
+                    <a href="#">Function</a>
+                    <a href="#">Menu</a>
+                  </div>
+                </div>
+                <div class="tiered-menu">
+                  <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;Time
+                    Sheet Management System</a>
+                  <div class="collapsible">
+                    <a class="top-tier" href="#"><img class="sidebar_icons" src="img/folder.png" alt=""></img>&nbsp;Time
+                      Card</a>
+                    <div class="collapsible">
+                      <a href="/getupdateTimeCard">Define</a>
+                      <a href="/getCardData">Monitor</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <!-- Sample Cards -->
+          <div class="container-fluid mt-4">
+            <div class="row">
+              <% employees.forEach(employee=> { %>
+                <div class="col-md-4">
+                  <div class="card"
+                  onclick="openModal1('<%= employee.EMPLOYEE_ID %>','<%= employee.FIRST_NAME %>','<%= employee.LAST_NAME %>', '<%= employee.PERSONAL_EMAIL %>', '<%= employee.DEPARTMENT %>', '<%= employee.EMP_IMAGE.toString('base64') %>','<%= employee.PREVIOUS_COMPANY_NAME %>','<%= employee.DESIGNATION %>','<%= employee.ROLE %>','<%= employee.EXPERIENCE %>','<%= employee.COMPANY_ADDRESS %>','<%= employee.START_DATE %>','<%= employee.END_DATE %>','<%= employee.DOCUMENT %>'
+                  ,'<%= employee.EMP_EDUCATION_ID %>' ,'<%= employee.EDUCATION_TYPE %>','<%= employee.QUALIFICATION %>','<%= employee.UNIVERSITY_NAME %>','<%= employee.E_START_DATE %>','<%= employee.E_END_DATE %>','<%= employee.E_AGGREGATE %>',)">
+                    <div class="center-image">
+                      <img src="data:image/png;base64,<%= employee.EMP_IMAGE.toString('base64') %>" alt="employee image"
+                        style="width: 70px; height: 70px;">
+                    </div>
+                    <h6>
+                      <%= employee.FIRST_NAME %>
+                        <%= employee.LAST_NAME %>
+                    </h6>
+                    <h6>
+                      <%= employee.PERSONAL_EMAIL %>
+                    </h6>
+                    <h6>
+                      <%= employee.DEPARTMENT %>
+                    </h6>
+                    <!-- Add more employee details as needed -->
+                  </div>
+                </div>
+                <% }); %>
+            </div>
+          </div>
+          <!-- Sample Modal -->
+          <div id="myModal" class="modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Card Details</h5>
+                  <button type="button" class="close" onclick="closeModal1()">
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div class="card">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <img id="employeeImageModal" src="data:image/png;base64," alt="Profile Image in Modal"
+                          style="width: 80px; height: 80px; background-color: gray;">
+                      </div>
+                      <div class="col-md-5">
+                        <h6 style="font-size: 12px;" id="employeeName"></h6>
+                        <h6 style="font-size: 12px;" id="employeeEmail"></h6>
+                        <h6 style="font-size: 12px;" id="employeeDepartment"></h6>
+                      </div>
+                      <!-- Add more employee details as needed -->
+                    </div>
+                  </div>
+                </div>
+                <!-- Tabs -->
+                <div class="tabs">
+                  <div onclick="openTab('experience')">Experience</div>
+                  <div onclick="openTab('education')">Education</div>
+                  <div onclick="openTab('position')">Position</div>
+                  <div onclick="openTab('personalDetails')">Personal Details </div>
+                  <div onclick="openTab('certification')">Certification and Training</div>
+                  <div onclick="openTab('')">References</div>
+                </div>
+                <!-- Tab Content - Experience -->
+                <div id="experience" class="tab-content">
+                  <div class="container-fluid">
+                    <form id="saveExperience" action="/saveExperience" method="post">
+                      <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <label for="employeeId">Employee ID:</label>
+                          <input type="text" class="form-control" id="employeeId" name="EMPLOYEE_ID" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="firstName">First Name:</label>
+                          <input type="text" class="form-control" id="firstName" name="FIRST_NAME" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="lastName">Last Name:</label>
+                          <input type="text" class="form-control" id="lastName" name="LAST_NAME" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="personalEmail">Personal Email:</label>
+                          <input type="email" class="form-control" id="personalEmail" name="PERSONAL_EMAIL" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="previousCompanyName">Previous Company Name:</label>
+                          <input type="text" class="form-control" id="previousCompanyName" name="PREVIOUS_COMPANY_NAME">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="designation">Designation:</label>
+                          <input type="text" class="form-control" id="designation" name="DESIGNATION">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="role">Role:</label>
+                          <input type="text" class="form-control" id="role" name="ROLE">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="experience">Experience:</label>
+                          <input type="text" class="form-control" id="experience" name="EXPERIENCE" >
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="companyAddress">Company Address:</label>
+                          <input type="text" class="form-control" id="companyAddress" name="COMPANY_ADDRESS">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="startDate">Start Date:</label>
+                          <input type="date" class="form-control" id="startDate" name="START_DATE">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="endDate">End Date:</label>
+                          <input type="date" class="form-control" id="endDate" name="END_DATE">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <!-- <label for="document">Document:</label> -->
+                          <input type="hidden" class="form-control-file" id="document" name="document">
+                        </div>
+                      </div>
+                      <div class="mt-2 text-right">
+                        <button type="submit" class="btn btn-primary" onclick="saveAndNextTab()">Save</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- Tab Content - Education -->
+                <div id="education" class="tab-content">
+                  <div class="container-fluid">
+                    <form id="updateEducation" action="/saveEducation" method="post" >
+                      <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <label for="employeeIdEducation">Employee ID:</label>
+                          <input type="text" class="form-control" id="employeeIdEducation" name="EMP_EDUCATION_ID" readonly>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="educationType">Education Type:</label>
+                          <input type="text" class="form-control" id="educationType" name="EDUCATION_TYPE">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="qualification">Qualification:</label>
+                          <input type="text" class="form-control" id="qualification" name="QUALIFICATION">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="universityName">University Name:</label>
+                          <input type="text" class="form-control" id="universityName" name="UNIVERSITY_NAME">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="instituteName">Institute Name:</label>
+                          <input type="text" class="form-control" id="instituteName" name="INSTITUTE_NAME">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="yearOfPassing">Year of Passing:</label>
+                          <input type="text" class="form-control" id="yearOfPassing" name="YEAR_OF_PASSING">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="instituteAddress">Institute Address:</label>
+                          <input type="text" class="form-control" id="instituteAddress" name="INSTITUTE_ADDRESS">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="state1">State:</label>
+                          <input type="text" class="form-control" id="state1" name="E_STATE">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="country">Country:</label>
+                          <input type="text" class="form-control" id="country" name="COUNTRY">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="startDate1">Start Date:</label>
+                          <input type="date" class="form-control" id="startDate1" name="E_START_DATE">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="endDate1">End Date:</label>
+                          <input type="date" class="form-control" id="endDate1" name="E_END_DATE">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="aggregate">Aggregate:</label>
+                          <input type="text" class="form-control" id="aggregate" name="E_AGGREGATE">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <!-- <label for="document1">Document:</label> -->
+                          <input type="hidden" class="form-control-file" id="document1" name="DOCUMENT" accept=".pdf, .doc, .docx">
+                        </div>
+                      </div>
+                      <div class="mt-2 text-right">
+                        <button type="submit" class="btn btn-primary" >Save</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- Tab Content - Position -->
+                <div id="position" class="tab-content">
+                  <div class="container-fluid">
+                    <form class="mt-0">
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="educationField1">position 1 :</label>
+                          <input type="text" class="form-control" id="educationField1" name="educationField1">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="educationField2">position2 :</label>
+                          <input type="text" class="form-control" id="educationField2" name="educationField2">
+                        </div>
+                        <div class="mt-2 text-right">
+                          <button type="submit" class="btn btn-primary" onclick="saveAndNextTab2()">Save
+                          </button>
+                        </div>
+                      </div>
+                      <!-- Add more fields as needed -->
+                    </form>
+                  </div>
+                </div>
+                <!-- Tab Content - Personal Details -->
+                <div id="personalDetails" class="tab-content">
+                  <div class="container-fluid">
+                    <form class="mt-0">
+                      <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <label for="birthDate">Birth Date:</label>
+                          <input type="date" class="form-control" id="birthDate" name="birthDate">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="townOfBirth">Town of Birth:</label>
+                          <input type="text" class="form-control" id="townOfBirth" name="townOfBirth">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="aadharCard">Aadhar Card:</label>
+                          <input type="text" class="form-control" id="aadharCard" name="aadharCard">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="panCard">PAN Card:</label>
+                          <input type="text" class="form-control" id="panCard" name="panCard">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="motherTongue">Mother Tongue:</label>
+                          <input type="text" class="form-control" id="motherTongue" name="motherTongue">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="anyDisabled">Any Disabled:</label>
+                          <select class="form-control" id="anyDisabled" name="anyDisabled">
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="address2">Address:</label>
+                          <input type="text" class="form-control" id="address2" name="address">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="city2">City:</label>
+                          <input type="text" class="form-control" id="city2" name="city">
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label for="country2">Country:</label>
+                          <input type="text" class="form-control" id="country2" name="country">
+                        </div>
+                        <!-- Add more fields as needed -->
+                      </div>
+                      <div class="mt-2 text-right">
+                        <button type="submit" class="btn btn-primary" onclick="saveAndNextTab3()">Save
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- Tab Content - certificate and Training -->
+                <div id="certification" class="tab-content">
+                  <div class="container-fluid">
+                    <form class="mt-0">
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="certificationName">Certification Name:</label>
+                          <input type="text" class="form-control" id="certificationName" name="certificationName">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="organization">Organization:</label>
+                          <input type="text" class="form-control" id="organization" name="organization">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="completionDate">Completion Date:</label>
+                          <input type="date" class="form-control" id="completionDate" name="completionDate">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="validityPeriod">Validity Period:</label>
+                          <input type="date" class="form-control" id="validityPeriod" name="validityPeriod">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="certificateNumber">Certificate Number:</label>
+                          <input type="text" class="form-control" id="certificateNumber" name="certificateNumber">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="document">Document:</label>
+                          <input type="file" class="form-control-file" id="document" name="document">
+                        </div>
+                      </div>
+                      <div class="mt-2 text-right">
+                        <button type="submit" class="btn btn-primary" onclick="saveAndNextTab4()">Save</button>
+                      </div>
+                      <!-- Add more fields as needed -->
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Add Bootstrap JS and Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script>
+    function openModal1(EMPLOYEE_ID, FIRST_NAME, LAST_NAME, PERSONAL_EMAIL, DEPARTMENT, EMP_IMAGE, PREVIOUS_COMPANY_NAME, DESIGNATION, ROLE, EXPERIENCE, COMPANY_ADDRESS, START_DATE, END_DATE, DOCUMENT
+    ,EMP_EDUCATION_ID,EDUCATION_TYPE,QUALIFICATION,UNIVERSITY_NAME,INSTITUTE_NAME,YEAR_OF_PASSING,INSTITUTE_ADDRESS,E_STATE,COUNTRY,E_START_DATE,E_END_DATE,E_AGGREGATE) {
+      // Fetch data for the cardId and populate the modal content
+      document.getElementById('employeeName').innerText = `${FIRST_NAME} ${LAST_NAME}`;
+      document.getElementById('employeeEmail').innerText = PERSONAL_EMAIL;
+      document.getElementById('employeeDepartment').innerText = DEPARTMENT;
+      document.getElementById('employeeImageModal').src = `data:image/png;base64,${EMP_IMAGE}`;
+      // Set the image source
+      // Populate the experience form 
+      document.getElementById('employeeId').value = EMPLOYEE_ID; // Set the employee ID if available
+      document.getElementById('firstName').value = FIRST_NAME;
+      document.getElementById('lastName').value = LAST_NAME; 
+      document.getElementById('personalEmail').value = PERSONAL_EMAIL;
+      document.getElementById('previousCompanyName').value = PREVIOUS_COMPANY_NAME; // Set the previous company name if available
+      document.getElementById('designation').value = DESIGNATION; // Set the designation if available
+      document.getElementById('role').value = ROLE; // Set the role if available
+      document.getElementById('experience').value = EXPERIENCE; // Set the experience if available
+      document.getElementById('companyAddress').value = COMPANY_ADDRESS; // Set the company address if available
+      document.getElementById('startDate').value = START_DATE; // Set the start date if available
+      document.getElementById('endDate').value = END_DATE; // Set the end date if available
+      document.getElementById('document').value = DOCUMENT; // Set the document if available
+      // Populate the education form 
+      document.getElementById('employeeIdEducation').value = EMP_EDUCATION_ID;
+      document.getElementById('educationType').value = EDUCATION_TYPE;
+      document.getElementById('qualification').value = QUALIFICATION;
+      document.getElementById('universityName').value = UNIVERSITY_NAME;
+      document.getElementById('instituteName').value = INSTITUTE_NAME; 
+      document.getElementById('yearOfPassing').value = YEAR_OF_PASSING;
+      document.getElementById('instituteAddress').value = INSTITUTE_ADDRESS;
+      document.getElementById('state1').value = E_STATE;
+      document.getElementById('country').value = COUNTRY;
+      document.getElementById('startDate1').value = E_START_DATE; 
+      document.getElementById('endDate1').value = E_END_DATE;
+      document.getElementById('aggregate').value = E_AGGREGATE;
+      // Show the modal
+      document.getElementById('myModal').style.display = 'flex';
+    }
+
+    function closeModal1() {
+      // Hide the modal
+      document.getElementById('myModal').style.display = 'none';
+    }
+
+
+    function openTab(tabName) {
+      // Show the content of the selected tab and hide others
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(tabContent => {
+        tabContent.style.display = 'none';
+      });
+
+      document.getElementById(tabName).style.display = 'block';
+    }
+  </script>
+  <script>
+    function openModal(modalId) {
+      var modal = document.getElementById(modalId);
+      modal.style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+      var modal = document.getElementById(modalId);
+      modal.style.display = 'none';
+    }
+
+    // Handle close icon clicks within the modal
+    document.addEventListener('click', function (event) {
+      if (event.target.classList.contains('close-icon')) {
+        closeModal(getModalIdFromEvent(event));
+      }
+    });
+
+    function getModalIdFromEvent(event) {
+      var modal = event.target.closest('.modal');
+      return modal ? modal.id : null;
+    }
+
+    // script/Script.js
+    function logout() {
+      // You may want to perform additional logout actions (e.g., clearing session) here
+      window.location.href = '/'; // Redirect to the login page
+    }
+
+    // Handle collapse/expand of menu items
+    $('.collapsible').hide();
+
+    $('.top-tier').click(function (e) {
+      $(this).next('.collapsible').toggle();
+    });
+
+    // Handle collapse/expand of User and Responsibility sections
+    $('#system-administrator').click(function (e) {
+      $('#user-section').toggle();
+      $('#responsibility-section').toggle();
+    });
+
+    // Handle collapse/expand of Define and Monitor sections under User
+    $('#user').click(function (e) {
+      $('#user-define').toggle();
+    });
+  </script>
+  <script>
+    function saveFormData(url, formData, successCallback, errorCallback) {
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log('Data saved successfully');
+        if (successCallback) {
+          successCallback();
+        }
+      } else {
+        console.error('Error saving data:', data.error);
+        if (errorCallback) {
+          errorCallback(data.error);
+        }
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      if (errorCallback) {
+        errorCallback(error);
+      }
+    });
+}
+function saveAndNextTab() {
+  var formData = new FormData(document.querySelector('form'));
+  formData.append('EMPLOYEE_ID', document.getElementById('employeeId').value);
+
+  saveFormData('/saveExperience', formData, function () {
+    // document.getElementById('experience').style.display = 'none';
+    // document.getElementById(nextTab).style.display = 'block';
+  });
+}
+
+function saveAndNextEducationTab() {
+  console.log('saveAndNextEducationTab function called');
+  var formData = new FormData(document.querySelector('#updateEducation'));
+  formData.append('EMP_EDUCATION_ID', document.getElementById('employeeIdEducation').value);
+
+  saveFormData("/saveEducation", formData, function () {
+    console.log('Save Education successful');
+    // document.getElementById('education').style.display = 'none';
+    // document.getElementById(nextTab).style.display = 'block';
+  }, function (error) {
+    console.error('Error saving education:', error);
+    // Handle the error, show a message to the user, etc.
+  });
+}
+   </script>
+  </body>
+</html>

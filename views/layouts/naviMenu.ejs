@@ -1,0 +1,217 @@
+<style>
+    /* Add this CSS to your stylesheet */
+  .nested-dropdown {
+      position: absolute;
+      left: 100%;
+      top: 0;
+      display: none;
+      min-width: 10rem;
+      padding: 0.5rem 0;
+      margin: 0.125rem 0 0;
+      font-size: 1rem;
+      color: #212529;
+      text-align: left;
+      list-style: none;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 0.25rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+  }
+  #nav-id {
+    background-color: rgb(226, 226, 243);
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+  #nav-id a {
+      color: black;
+      margin-left: 0px;
+    padding-left: 7px;
+  }
+  .nested-dropdown a {
+    text-decoration: none;
+  }
+   
+  </style>
+  <div class="col-md-12"  id="nav-id">
+    <ul class="nav nav-pills">
+      <li class="nav-item" style="margin-top: 6px;">
+        <a class="dropdown-item" href="/home" ><%= __('home') %>&nbsp;</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+          aria-expanded="false" id="activeTab"><%= __('SystemAdministrator') %></a>
+        <div class="dropdown-menu" aria-labelledby="activeTab">
+          <a class="dropdown-item" id="userItem" href="#"> <%= __('User') %></a>
+          <div class="dropdown-menu nested-dropdown" aria-labelledby="userItem">
+            <a class="dropdown-item" href="/UserRegister"><%= __('CreateUsers') %></a>
+            <a class="dropdown-item" href="/getAllData"><%= __('MonitorUsers') %></a>
+          </div>
+          <a class="dropdown-item" id="responsibilityItem" href="#"> <%= __('Responsibility') %></a>
+          <div class="dropdown-menu nested-dropdown" aria-labelledby="responsibilityItem">
+            <a class="dropdown-item" href="/responsibility"><%= __('DefineResponsibility') %></a>
+            <a class="dropdown-item" href="/getTableData"><%= __('MonitorResponsibility') %></a>
+          </div>
+          <a class="dropdown-item" id="applicationItem" href="#"> <%= __('Application') %> </a>
+          <div class="dropdown-menu nested-dropdown" aria-labelledby="applicationItem">
+            <a class="dropdown-item" href="/Function"><%= __('Function') %></a>
+            <a class="dropdown-item" href="/Menu"><%= __('Menu') %></a>
+          </div>
+          <a class="dropdown-item" id="lookupsItem" href="#"> <%= __('Lookups') %></a>
+          <div class="dropdown-menu nested-dropdown" aria-labelledby="lookupsItem">
+            <a class="dropdown-item" href="/Lookup"><%= __('Master Lookup') %></a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#drop" role="button" aria-haspopup="true"
+          aria-expanded="false" id="dropdownTab"><%= __('HumanResourceManagementSystem') %></a>
+        <div class="dropdown-menu" aria-labelledby="dropdownTab">
+          <a class="dropdown-item" id="employeeItem" href="#"> <%= __('EmployeeInfomation') %></a>
+          <div class="dropdown-menu nested-dropdown" aria-labelledby="employeeItem">
+            <a class="dropdown-item" href="/employeeCreation"><%= __('CreateEmployees') %></a>
+            <a class="dropdown-item" href="/employeeProfileCard1"><%= __('VeiwEmployee') %></a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#link" role="button" aria-haspopup="true"
+          aria-expanded="false" id="linkTab"><%= __('LeaveManagementSystem') %></a>
+        <div class="dropdown-menu" aria-labelledby="linkTab">
+          <a class="dropdown-item" id="lmsItem" href="#"> <%= __('LMS') %></a>
+          <div class="dropdown-menu nested-dropdown" aria-labelledby="lmsItem">
+            <a class="dropdown-item" href="/leaveDetails"><%= __('ViewLeaveDet') %></a>
+            <a class="dropdown-item" href="/leaveApproval"><%= __('leaveApproval') %></a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+          aria-expanded="false" id="displayTab"> <%= __('TimeSheetManagementSystem') %></a>
+        <div class="dropdown-menu" aria-labelledby="displayTab">
+          <a class="dropdown-item" id="tmsItem" href="#"><%= __('TMS') %></a>
+          <div class="dropdown-menu nested-dropdown" aria-labelledby="tmsItem">
+            <a class="dropdown-item" href="/create-time-card"><%= __('CreateTimeCard') %></a>
+            <a class="dropdown-item" href="/getupdateTimeCard"><%= __('ApprovalTimeCard') %></a>
+            <a class="dropdown-item" href="/getCardData"><%= __('ViewTimeSheets') %> </a>
+   
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="custom-dropdown sub-dropdown">
+          <button class="btn" id="settings-dropdown-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= __('Personalize') %>        
+          </button>
+          <div class="sub-dropdown-content dropdown-menu" aria-labelledby="settings-dropdown-btn">
+            <!-- Theme Dropdown -->
+            <div class="dropdown">
+              <button class="dropdown-toggle" type="button" id="theme-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Theme
+              </button>
+              <div class="dropdown-menu" aria-labelledby="theme-dropdown-btn">
+                <a class="dropdown-item" href="#" onclick="selectTheme('Theme 1')">Sunset Shine</a>
+                <a class="dropdown-item" href="#" onclick="selectTheme('Theme 2')">Sea World</a> 
+                <a class="dropdown-item" href="#" onclick="selectTheme('Theme 3')">Tree Wood</a> 
+              </div>
+            </div>
+            
+            <!-- Justification Dropdown -->
+            <div class="dropdown">
+              <button class="dropdown-toggle" type="button" id="justification-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Justification
+              </button>
+              <div class="dropdown-menu" aria-labelledby="justification-dropdown-btn">
+                <a class="dropdown-item" href="#" onclick="selectJustification('left')">Left</a>
+                <a class="dropdown-item" href="#" onclick="selectJustification('center')">Center</a>
+                <a class="dropdown-item" href="#" onclick="selectJustification('right')">Right</a>
+              </div>
+            </div>
+            
+            <!-- Font and Size Dropdown -->
+            <div class="dropdown">
+              <button class="dropdown-toggle" type="button" id="font-size-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Font and Size
+              </button>
+              <div class="dropdown-menu" aria-labelledby="font-size-dropdown-btn">
+                <a class="dropdown-item" href="#" onclick="selectFont('Arial')">Arial</a>
+                <a class="dropdown-item" href="#" onclick="selectFont('Times New Roman')">Times New Roman</a> 
+                <a class="dropdown-item" href="#" onclick="selectFont('Verdana')">Verdana</a> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+   
+  <script>
+    $(document).ready(function () {
+  // Handle click events for each main tab
+  $('.nav-item.dropdown .nav-link').click(function () {
+    var dropdownMenu = $(this).next('.dropdown-menu');
+    $('.dropdown-menu').not(dropdownMenu).hide(); // Hide other dropdowns
+    dropdownMenu.toggle();
+    dropdownMenu.position({
+      my: "left top",
+      at: "right top",
+      of: this,
+    });
+  });
+
+  // Handle click events for nested dropdown items
+  $('.dropdown-item').click(function () {
+    var nestedDropdown = $(this).next('.nested-dropdown');
+    $('.nested-dropdown').not(nestedDropdown).hide(); // Hide other nested dropdowns
+    nestedDropdown.toggle();
+    nestedDropdown.position({
+      my: "left top",
+      at: "right top",
+      of: $(this).parent(), // Position relative to the parent item
+    });
+  });
+});
+
+// JavaScript functions for handling theme, justification, and font selection
+function selectTheme(theme) {
+  console.log("Selected theme:", theme);
+  // Implement your logic here to apply the selected theme to the page
+}
+
+function selectJustification(justification) {
+    // Example: Apply selected justification to text
+    $('.home_div').css('text-align', justification);
+    $('.nav-item').css('text-align', justification);
+    $('.top-tier').css('text-align', justification);
+    $('.table-container').css('text-align', justification);
+    $('#nav-id').css('text-align', justification);
+    $('.table-container').css('text-align', justification);
+    $('.form-control').css('text-align', justification);
+    $('.table-container').css('text-align', justification);
+    $('.myTabs').css('text-align', justification);
+    $('.form-group').css('text-align', justification);
+    $('.card-body, .search-container').css('text-align', justification);
+    $('body').css('text-align', justification);
+    $('.form-group').css('text-align', justification);
+    
+    
+}
+
+function selectFont(font) {
+    // Example: Apply selected font to text
+    $('.home_div').css('font-family', font);
+    $('.nav-item a').css('font-family', font);
+    $('.top-tier').css('font-family', font);
+    $('body').css('font-family', font);
+    $('#nav-id').css('font-family', font);
+    $('.table-container').css('font-family', font);
+    $('.form-control').css('font-family', font);
+    $('.table-container').css('font-family', font);
+    $('.myTabs').css('font-family', font);
+    $('.card-body, .search-container').css('font-family', font);
+    $('body').css('font-family', font);
+    $('.form-control').css('font-family', font);
+}
+
+  </script>

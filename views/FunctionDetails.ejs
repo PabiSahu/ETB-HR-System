@@ -1,0 +1,192 @@
+<!-- views/ResponsibilityTable.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= __('ResponsibilityDetails') %></title>
+  <link rel="stylesheet" href="css/style1.css">
+  <!-- <link rel="stylesheet" href="css/home.css"> -->
+  <!-- <link rel="stylesheet" href="css/UserRegisterTable.css"> -->
+  <!-- <link rel="stylesheet" href="css/UserRegisterTable.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- Add Bootstrap CSS link -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('layouts/header2');-%>
+  <%- include('layouts/naviMenu');-%>
+  <!-- collapsible submenus -->
+  <div class="container-fluid">
+      <div class="row">
+        <%- include('layouts/sidebar');-%>
+        <!--body part-->
+        <div class="col-md-9">
+          <div class="container-fluid mt-3">
+            <div class="card">
+              <div class="card-body">
+                <h4><%= __('Function Details') %> </h4>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid mt-3">
+            <div class="card mb-3" >
+              <div class="card-body">
+                <div class="search-container mb-2">
+                  <div class="input-group">
+                    <input type="text" id="searchInput" class="search-input" onkeyup="searchTable()"
+                      placeholder="<%= __('Search') %>">
+                    <div class="input-group-append">
+                      <div class="input-group-text search-icon" onclick="toggleSearch()">
+                        <i class="fas fa-search"></i>
+                      </div>
+                      &nbsp; &nbsp;
+                      <button class="btn" onclick="clearSearch()"><%= __('Clear') %></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-container">
+                <table class="table table-bordered mt-3">
+                   <thead>
+                      <tr>
+                        <th> </th>
+                        <th><%= __('Id') %></th>
+                        <th><%= __('FUNCTION NAME') %></th>
+                        <th><%= __('MENU NAME') %></th>
+                        <th><%= __('DESCRIPTION') %></th>
+                        <!-- <th>Created By</th>
+                        <th>Creation Date</th>
+                        <th>Last Updated By</th>
+                        <th>Last Updated Date</th> -->
+                      </tr>
+                   </thead>
+                   <tbody id="tableBody"> 
+                    <% data.forEach(row => { %>
+                      <tr>
+
+                        <td>
+                          <button class="btn" id="editbtn2" data-row='<%- JSON.stringify(row) %>' onclick="openEditForm(this)">
+                          <i class="fas fa-pencil-alt" style="color: #3F51B5;;"></i></button>
+                        </td>
+                        <td><%= row.FUNCTION_ID %></td>
+                        <td><%= row.FUNCTION_NAME %></td>
+                        <td><%= row.MENU_NAME %></td>
+                        <td><%= row.DESCRIPTION || '' %></td>
+                        <!-- <td><%= row.CREATED_BY %></td>
+                        <td><%= row.CREATION_DATE %></td>
+                        <td><%= row.LAST_UPDATED_BY %></td>
+                        <td><%= row.LAST_UPDATED_DATE %></td> -->
+                      </tr>
+                      <% }); %>
+                    </tbody> 
+                </table>
+                <div id="pagination" class="mt-3">
+                        <!-- Pagination controls will be added dynamically here -->
+                      </div>
+                    </div>
+                  <!-- Modal Container -->
+                  <div id="modalContainer" class="modal"></div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bootstrap JS and Popper.js CDN links -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <%- include('layouts/script');-%>
+  <%- include('layouts/pagination');-%>
+
+  <script>
+        // JavaScript functions for handling search and clear
+        function searchTable() {
+          const input = document.getElementById('searchInput').value.trim().toUpperCase();
+          const table = document.querySelector('.table'); // Select the table
+          const rows = table.getElementsByTagName('tr');
+    
+          for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let found = false;
+    
+            for (let j = 0; j < cells.length; j++) {
+              const cellText = cells[j].innerText.trim().toUpperCase();
+              if (cellText.includes(input)) {
+                found = true;
+                break;
+              }
+            }
+    
+            if (found) {
+              rows[i].style.display = ''; // Show the row if data is found
+            } else {
+              rows[i].style.display = 'none'; // Hide the row if data is not found
+            }
+          }
+        }
+        function clearSearch() {
+          const searchInput = document.getElementById('searchInput');
+          searchInput.value = '';
+          searchTable(); // Clearing input, so display all rows again
+          const table = document.querySelector('.table');
+          const headerRow = table.querySelector('thead tr');
+          headerRow.style.display = '';
+        }
+      </script>
+        
+
+        <script>
+          // JavaScript functions for handling edit form
+          function openEditForm(button) {
+            const rowData = JSON.parse(button.dataset.row);
+        
+            // Create the modal content dynamically
+            const modalContent = `
+              <div class="edit-form">
+                <h4>Edit Form</h4>
+                <form id="editForm" action="/functionDetails/update" method="post" onsubmit="return submitEditForm()">
+                  <!-- Edit form fields go here -->
+                  <label for="editname">FUNCTION NAME:</label>
+                  <input type="text" id="editname" name="FUNCTION_NAME" value="${rowData.FUNCTION_NAME}" required>
+                  <label for="editrole">MENU NAME:</label>
+                  <input type="text" id="editrole" name="MENU_NAME" value="${rowData.MENU_NAME}" required >
+                  <label for="editdes">DESCRIPTION:</label>
+                  <input type="text" id="editdes" name="DESCRIPTION" value="${rowData.DESCRIPTION}" >
+                  <!-- Add input fields for other columns as needed -->
+                  <input type="hidden" id="functionID" name="FUNCTION_ID" value="${rowData.FUNCTION_ID}">
+                  <button type="submit">Update</button>
+                  <button type="button" onclick="closeEditForm()">Cancel</button>
+                </form>
+              </div>
+            `;
+        
+            // Inject the modal content into the modal container
+            document.getElementById('modalContainer').innerHTML = modalContent;
+            // Show the modal
+            document.getElementById('modalContainer').style.display = 'block';
+          }
+        
+          function closeEditForm() {
+            // Hide the modal
+            document.getElementById('modalContainer').style.display = 'none';
+          }
+        
+          function submitEditForm() {
+            // Change the form's method to 'POST' and add a hidden field for '_method'
+            document.getElementById('editForm').method = 'POST'; // Change to POST
+            const methodOverrideField = document.createElement('input');
+            methodOverrideField.type = 'hidden';
+            methodOverrideField.name = '_method';
+            methodOverrideField.value = 'PUT';
+            document.getElementById('editForm').appendChild(methodOverrideField);
+        
+            return true; // Continue with form submission
+          }
+        </script>
+</body>
+</html>      

@@ -1,0 +1,127 @@
+
+.pagination {
+  display: flex;
+  list-style: none;
+}
+
+.pagination li {
+  margin-right: 10px;
+}
+#pagination {
+  text-align: right;
+}
+.pagination a {
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.pagination .active a {
+  background-color: #007bff;
+  color: #fff;
+}
+    
+    /* Add any additional styling as needed */
+.table {
+  width: 70%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  min-width: max-content;  
+}
+table th{
+  position: sticky;
+  top:0px;
+  }
+.table-container{
+  max-height: 700px; /* Set the maximum height for vertical scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: auto;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  font-size: 14px;
+}
+.table th {
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.container-fluid {
+  margin-top: 20px;
+  
+}
+.container-fluid1 {
+  margin-top: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  
+}
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 150%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    /*--------------------------------*/
+    .edit-form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+.tiered-menu {
+  max-height: 80vh;   
+}
+.edit-form h4 {
+  text-align: center;
+}
+
+.edit-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-form label {
+  margin-bottom: 8px;
+}
+
+.edit-form input {
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.edit-form button {
+  background-color: #3F51B5;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-form button[type="button"] {
+  background-color: red;
+  margin-top: 8px;
+}
+
+.edit-form button:hover {
+  color: #38d39f;
+}

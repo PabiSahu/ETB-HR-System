@@ -1,0 +1,40 @@
+<!-- views/employeeProfileCards.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= __('EmployeeProfileCards') %></title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <h1><%= __('EmployeeProfileCards') %></h1>
+
+    <% if (employees && employees.length > 0) { %>
+      <% employees.forEach(employee => { %>
+        <div class="card" style="width: 18rem; margin-bottom: 20px;">
+          <!-- Display employee image -->
+          <img class="card-img-top" src="data:image/jpeg;base64,<%= employee.EMP_IMAGE.toString('base64') %>" alt="Employee Image">
+          
+          <div class="card-body">
+            <!-- Display employee details -->
+            <h5 class="card-title"><%= employee.FIRST_NAME %> <%= employee.LAST_NAME %></h5>
+            <p class="card-text"><%= __('Department') %>: <%= employee.DEPARTMENT %></p>
+            <!-- Add more fields as needed -->
+          </div>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p><%= __('No_data_available') %></p>
+    <% } %>
+  </div>
+
+  <!-- Include Bootstrap JS (if needed) -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

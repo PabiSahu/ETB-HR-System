@@ -1,0 +1,323 @@
+<!---leaveApproval.ejs-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= __('LeaveApproval') %></title>
+  <link rel="stylesheet" href="css/style1.css">
+  <!-- <link rel="stylesheet" href="css/home.css"> -->
+  <!-- <link rel="stylesheet" href="css/LeaveApproval.css"> -->
+  <!-- <link rel="stylesheet" href="css/UserRegisterTable.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- Add Bootstrap CSS link -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+  <%- include('layouts/header2');-%>
+  <%- include('layouts/naviMenu');-%>
+  <!-- collapsible submenus -->
+  <div class="container-fluid">
+    <div class="row">
+      <%- include('layouts/sidebar');-%>
+        <div class="col-md-9">
+          <div class="container-fluid mb-3 mt-3">
+            <div class="container-fluid mb-3 mt-3">
+              <div class="card">
+                <div class="card-body">
+                  <h4><%= __('LeaveApproval') %></h4>
+                </div>
+              </div>
+            </div>
+            <div class="container-fluid ">
+              <div class="card">
+                <div class="card-body">
+                  <div class="search-container mb-2">
+                    <div class="input-group">
+                      <input type="text" id="searchInput" class="search-input" onkeyup="searchTable()"
+                        placeholder="<%= __('Search') %>">
+                      <div class="input-group-append">
+                        <div class="input-group-text search-icon" onclick="toggleSearch()">
+                          <i class="fas fa-search"></i>
+                        </div>
+                        &nbsp; &nbsp;
+                        <button class="btn btn-secondary" onclick="clearSearch()"><%= __('Clear') %></button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Add your page content here -->
+
+                  <div class="table-container">
+                    <table class="table table-bordered" id="leaveApprovalTable">
+                      <thead>
+                        <tr>
+                          <th><%= __('EMPLOYEE_ID') %></th>
+                          <th><%= __('EmployeeName') %></th>
+                          <th><%= __('LeaveID') %></th>
+                          <th><%= __('LeaveFromDate') %></th>
+                          <th><%= __('LeaveToDate') %></th>
+                          <th><%= __('DaysofLeave') %></th>
+                          <th><%= __('Comments') %></th>
+                          <th><%= __('StatusID') %></th>
+                          <th><%= __('ApprovedBy') %></th>
+                          <th><%= __('ApprovalDate') %></th>
+                          <th><%= __('LeaveTypeID') %></th>
+                          <th><%= __('LeaveTypeName') %></th>
+                          <th><%= __('LeavesRemaining') %></th>
+                          <th><%= __('TotalLeaves') %></th>
+                          <th><%= __('ACTION') %></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Loop through leaveApprovalData and display each row -->
+                        <% leaveApprovalData.forEach(function(data) { %>
+                          <tr>
+                            <td>
+                              <%= data.EMPLOYEE_ID %>
+                            </td>
+                            <td>
+                              <%= data.EMPLOYEE_NAME %>
+                            </td>
+                            <td>
+                              <%= data.LEAVE_ID %>
+                            </td>
+                            <td>
+                              <%= data.LEAVE_FROM_DATE %>
+                            </td>
+                            <td>
+                              <%= data.LEAVE_TO_DATE %>
+                            </td>
+                            <td>
+                              <%= data.DAYS_OF_LEAVE %>
+                            </td>
+                            <td>
+                              <%= data.COMMENTS %>
+                            </td>
+                            <td>
+                              <%= data.STATUS_ID %>
+                            </td>
+                            <td>
+                              <%= data.APPROVED_BY %>
+                            </td>
+                            <td>
+                              <%= data.APPROVAL_DATE %>
+                            </td>
+                            <td>
+                              <%= data.LEAVE_TYPE_ID %>
+                            </td>
+                            <td>
+                              <%= data.child_Lookup_Name %>
+                            </td>
+                            <td>
+                              <%= data.LEAVES_REMAINING %>
+                            </td>
+                            <td>
+                              <%= data.TOTAL_LEAVES %>
+                            </td>
+                            <td class="action-buttons"style="display: flex;">
+                              <form id="approveForm<%= data.LEAVE_APPROVAL_ID %>"
+                                action="/approveLeave/<%= data.LEAVE_APPROVAL_ID %>" method="post"
+                                onsubmit="return confirm('Are you sure you want to approve this leave?')">
+                                <button type="submit" id="approveButton<%= data.LEAVE_APPROVAL_ID %>"
+                                  onclick="handleApproval('<%= data.LEAVE_APPROVAL_ID %>')" class="btn rounded-button btn-primary"><%= __('Approve') %></button>
+                                </form>&nbsp;&nbsp;
+                                <form id="rejectForm<%= data.LEAVE_APPROVAL_ID %>"
+                                  action="/rejectLeave/<%= data.LEAVE_APPROVAL_ID %>" method="post"
+                                  onsubmit="return confirm('Are you sure you want to reject this leave?')">
+                                  <button type="submit" id="rejectButton<%= data.LEAVE_APPROVAL_ID %>"
+                                    onclick="handleRejection('<%= data.LEAVE_APPROVAL_ID %>')"
+                                    class="btn btn-danger approval-button rounded-button"><%= __('Reject') %></button>
+                                </form>
+                              
+                            </td>
+                          </tr>
+                          <% }); %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div id="pagination" class="mt-3 offset-md-5"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+  <%- include('layouts/script');-%>
+    <script>
+      // Function to show confirmation dialog for clearing the search input
+      function clearSearch() {
+        if (confirm('Are you sure you want to clear the search?')) {
+          document.getElementById('searchInput').value = '';
+          searchTable();
+        }
+      }
+
+      // Function to hide both buttons after either button is clicked and show the status
+      function hideButtonsAndShowStatus(buttonId, status) {
+        var button1 = document.getElementById('approveButton' + buttonId);
+        var button2 = document.getElementById('rejectButton' + buttonId);
+
+        // Hide both buttons
+        button1.style.display = 'none';
+        button2.style.display = 'none';
+
+        // Store the state in localStorage
+        localStorage.setItem('approveButton' + buttonId, 'hidden');
+        localStorage.setItem('rejectButton' + buttonId, 'hidden');
+
+        // Show the status in the cell
+        var cell = button1.parentElement;
+        var statusText = document.createElement('span');
+        statusText.textContent = status;
+        cell.appendChild(statusText);
+
+        // Store the status in localStorage
+        localStorage.setItem('status' + buttonId, status);
+      }
+
+      // Function to check and update status based on stored state
+      function checkAndUpdateStatus() {
+        // Loop through buttons and update status based on stored state
+        var buttons = document.querySelectorAll('.approval-button');
+        buttons.forEach(function (button) {
+          var buttonId = button.id;
+          var storedStateApprove = localStorage.getItem('approveButton' + buttonId);
+          var storedStateReject = localStorage.getItem('rejectButton' + buttonId);
+
+          if (storedStateApprove === 'hidden' || storedStateReject === 'hidden') {
+            button.style.display = 'none';
+
+            var cell = button.parentElement;
+            var statusText = document.createElement('span');
+            var storedStatus = localStorage.getItem('status' + buttonId);
+            statusText.textContent = storedStatus ? storedStatus : (storedStateApprove === 'hidden' ? 'Approved' : 'Rejected');
+            cell.appendChild(statusText);
+          }
+        });
+      }
+
+      // Check and update status when the page loads
+      window.onload = checkAndUpdateStatus;
+    </script>
+    <script>
+      // Function to handle leave approval and remove the row
+      async function handleApproval(leaveApprovalId) {
+        try {
+          // Assuming you have a function to send an asynchronous request to approve the leave
+          // You can use fetch or another method for this
+          await approveLeave(leaveApprovalId);
+
+          // Remove the row from the table
+          const row = document.getElementById('row' + leaveApprovalId);
+          if (row) {
+            row.remove();
+            console.log('Row removed successfully:', leaveApprovalId);
+          } else {
+            console.error('Row not found:', leaveApprovalId);
+          }
+        } catch (error) {
+          console.error('Error handling approval:', error);
+        }
+      }
+
+      // Function to handle leave rejection and remove the row
+      async function handleRejection(leaveApprovalId) {
+        try {
+          // Assuming you have a function to send an asynchronous request to reject the leave
+          // You can use fetch or another method for this
+          await rejectLeave(leaveApprovalId);
+
+          // Remove the row from the table
+          const row = document.getElementById('row' + leaveApprovalId);
+          if (row) {
+            row.remove();
+            console.log('Row removed successfully:', leaveApprovalId);
+          } else {
+            console.error('Row not found:', leaveApprovalId);
+          }
+        } catch (error) {
+          console.error('Error handling rejection:', error);
+        }
+      }
+
+      // ... (rest of your existing script) ...
+    </script>
+    <!--Pagination-->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const tableBody = document.getElementById('leaveApprovalTable').getElementsByTagName('tbody')[0];
+        const itemsPerPage = 4; // Number of items to display per page
+        const dataRows = Array.from(tableBody.getElementsByTagName('tr'));
+        let currentPage = 1;
+
+        // Function to display rows for the current page
+        function showPage(page) {
+          const startIndex = (page - 1) * itemsPerPage;
+          const endIndex = startIndex + itemsPerPage;
+
+          dataRows.forEach((row, index) => {
+            if (index >= startIndex && index < endIndex) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        }
+
+        // Function to generate pagination controls
+        function generatePaginationControls() {
+          const totalPages = Math.ceil(dataRows.length / itemsPerPage);
+
+          const paginationContainer = document.getElementById('pagination');
+          paginationContainer.innerHTML = '';
+
+          // Previous button
+          const prevButton = document.createElement('button');
+          prevButton.innerText = "Previous";
+          prevButton.addEventListener('click', function () {
+            if (currentPage > 1) {
+              currentPage--;
+              showPage(currentPage);
+            }
+          });
+          paginationContainer.appendChild(prevButton);
+
+          // Page buttons
+          for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.innerText = i;
+            button.addEventListener('click', function () {
+              currentPage = i;
+              showPage(currentPage);
+            });
+            paginationContainer.appendChild(button);
+          }
+
+          // Next button
+          const nextButton = document.createElement('button');
+          nextButton.innerText = "Next";
+          nextButton.addEventListener('click', function () {
+            if (currentPage < totalPages) {
+              currentPage++;
+              showPage(currentPage);
+            }
+          });
+          paginationContainer.appendChild(nextButton);
+        }
+
+        // Initial setup
+        showPage(currentPage);
+        generatePaginationControls();
+      });
+    </script>
+</body>
+
+</html>

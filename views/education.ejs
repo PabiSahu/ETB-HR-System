@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= __('EducationDetailsForm') %></title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2><%= __('EducationDetailsForm') %></h2>
+    
+    <!-- Form starts here -->
+    <form id="updateEducationDetails" action="/update" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="EDUCATION_ID"><%= __('EducationID') %></label>
+                <input type="text" class="form-control" id="EDUCATION_ID" name="EDUCATION_ID" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="EMP_EDUCATION_ID"><%= __('EMPLOYEE_ID') %></label>
+                <input type="text" class="form-control" id="EMP_EDUCATION_ID" name="EMP_EDUCATION_ID" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="EDUCATION_TYPE"><%= __('EducationType') %></label>
+                <input type="text" class="form-control" id="EDUCATION_TYPE" name="EDUCATION_TYPE" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="QUALIFICATION"><%= __('Qualification') %></label>
+                <input type="text" class="form-control" id="QUALIFICATION" name="QUALIFICATION" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="UNIVERSITY_NAME"><%= __('UniversityName') %> </label>
+                <input type="text" class="form-control" id="UNIVERSITY_NAME" name="UNIVERSITY_NAME" required>
+            </div>
+        </div>
+         <!-- Add a hidden input field for EDUCATION_ID -->
+        
+        <button type="submit" class="btn btn-primary"><%= __('Submit') %></button>
+    </form>
+    <!-- Form ends here -->
+</div>
+
+<!-- Include Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

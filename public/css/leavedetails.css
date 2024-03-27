@@ -1,0 +1,98 @@
+.body12 {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    /* margin-top: 20px; */
+    border-collapse: collapse;
+    min-width: max-content;
+            
+}
+
+table th{
+    position: sticky;
+    top:0px;
+    }
+  .table-container{
+    max-width: 999px;
+    max-height: 300px; /* Set the maximum height for vertical scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: auto;
+  }
+
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    
+}
+
+th {
+    background-color: #ddd;
+    color: black;
+    
+
+
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+.tr_back_color {
+    background-color: #ddd ;
+    color: black;
+}
+
+
+/* modal.css */
+.modal {
+display: none;
+position: fixed;
+top: 5%;
+left: 30%;
+right:70%;
+width: 60%;
+height: 100%;
+/* background-color: rgba(0, 0, 0, 0.5); */
+}
+
+.modal-content {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+padding: 20px;
+background-color: #f2f2f2;
+border: 2px solid #ccc;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+.close-icon {
+position: absolute;
+top: 10px;
+right: 10px;
+font-size: 20px;
+cursor: pointer;
+}
+
+
+input{
+width: 170px;
+height: 30px;
+margin-top: 0.5px;
+margin-bottom: 3px;
+}
+

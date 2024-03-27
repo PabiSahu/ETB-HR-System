@@ -1,0 +1,88 @@
+<!-- insertUserRole.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Insert User Role</title>
+        <link rel="stylesheet" href="css/style1.css">
+        <!-- <link rel="stylesheet" href="css/home.css"> -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+        <%- include('layouts/header2');-%>
+        <%- include('layouts/naviMenu');-%>
+        <div class="container-fluid">
+          <div class="row">
+          <%- include('layouts/sidebar');-%>
+           <div class="col-md-5" style="margin-left:250PX ;">
+             <div class="container mt-4" id="header">
+                <form action="/insertUserRole" method="post">
+                        <h5><%= __('Assign Role') %></h5>
+                    <div class="form-group row">
+                        <label for="username"class="col-sm-2 col-form-label"><%=__('User Name') %>:</label>
+                        <div class="col-sm-8">
+                                <select id="username" class="form-control" name="username"></select>
+                         
+                        </div>
+                    </div>
+                    <div class="form-group row">                                
+                      <label for="roleName" class="col-sm-2 col-form-label"><%=__('Role Name') %>:</label>
+                      <div class="col-sm-8">
+                        
+                        <select class="form-control" id="roleName" name="roleName"></select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label"><%=__('Description') %>:</label>
+                        <div class="col-sm-8">
+                          <textarea type="text"class="form-control"id="description"name="description"required></textarea><br>
+                        </div>
+                     </div>
+                     <!-- Submit Button -->
+                    <div class="form-group row">
+                        <div class="col-sm-10 ">
+                            <button type="submit" class="btn btn-primary"><%=__('Submit') %></button>    <!-- <%= __('Submit') %> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   <%- include('layouts/script');-%>
+  <!-- ********************************************************************* -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+  <script>
+        // Fetch usernames from the server
+        $.ajax({
+          url: '/getUsernames', // Update the URL according to your routes
+          method: 'GET',
+          success: function (data) {
+            const usernameDropdown = $('#username');
+            data.forEach(function (username) {
+              usernameDropdown.append(`<option value="${username.USERNAME}">${username.USERNAME}</option>`);
+            });
+          }
+        });
+      
+        // Fetch role names from the server
+        $.ajax({
+          url: '/getRoleNames', // Update the URL according to your routes
+          method: 'GET',
+          success: function (data) {
+            const roleNameDropdown = $('#roleName');
+            data.forEach(function (roleName) {
+              roleNameDropdown.append(`<option value="${roleName.ROLE_NAME}">${roleName.ROLE_NAME}</option>`);
+            });
+          }
+        });
+      </script>
+
+</body>
+</html>

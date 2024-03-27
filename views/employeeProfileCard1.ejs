@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= __('EmployeeProfileCards') %></title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style1.css">
+    <!-- <link rel="stylesheet" href="css/home.css"> -->
+</head>
+<body>
+  <header>
+    <div>  
+      <button id="toggle-sidebar-btn" onclick="toggleSidebar()" style="background-color:#1f3559 ;color:white;">
+        ☰ <!-- This is the symbol for the navigation menu -->
+      </button>             
+        <a href="/home" style="margin-top: 0px;">          
+            <img src="img/etb.png" alt="Company Logo" class="logo1" >
+          </a> 
+    </div>           
+    <span id="user-info">
+        Login as <strong>&nbsp;&nbsp;<%= username %></strong>
+        <img src="/img/emp (23).png" alt="Profile Image">
+    </span>
+    <button id="logout-btn" onclick="logout()">
+        <img src="img/output-onlinepngtools.png" alt="Logout Image">
+      </button>
+  </header>
+  <%- include('layouts/naviMenu');-%>
+<!-- collapsible submenus -->
+<div class="container-fluid">    
+      <div class="row">
+        <%- include('layouts/sidebar');-%>
+      <div class="col-md-9">
+        <div class="container-fluid mt-3">
+            <h3><%= __('EmployeeProfileCards') %></h3>      
+            <div class="row mt-1">
+              <% employees.forEach(employee=> { %> <div class="col-md-3">
+                <div class="card mb-3 shadow">
+                  <div class="card-body text-center"><!-- Display employee details -->
+                    <% if (employee.EMP_IMAGE) { %> <img class="card-img-top rounded-circle mx-auto"
+                        src="data:image/jpeg;base64,<%= employee.EMP_IMAGE.toString('base64') %>"
+                        alt="Employee Image" style="width: 100px; height: 100px; background-color: gray;">
+                      <% } else { %>
+                        <div style="width: 100px; height: 100px; background-color: gray;"></div>
+                        <% } %>
+                          <h6 class="card-title" style="font-size: 15px;">
+                            <%= employee.EMPLOYEE_ID %>
+                          </h6>
+                          <h6 class="card-title" style="font-size: 15px;">
+                            <%= employee.FIRST_NAME %>
+                              <%= employee.LAST_NAME %>
+                          </h6>
+                          <h6 class="card-text" style="font-size: 15px; ">
+                            <%= __('Department') %>: <%= employee.DEPARTMENT %>
+                          </h6><!-- Add more fields as needed --><!-- Button to view details --><a
+                            href="/employeeDetails1/<%= employee.EMPLOYEE_ID %>" class="btn btn-primary">
+                            <%= __('ViewDetails') %>
+                          </a>
+                  </div>
+                </div>
+              </div>
+              <% }); %>
+          </div>
+      </div>
+    </div>        
+  </div>
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Include Bootstrap JS (if needed) -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<%- include('layouts/script');-%>
+</body>
+</html>

@@ -1,0 +1,581 @@
+<!-- createTimeCardEntry.ejs -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style1.css">
+  <!-- <link rel="stylesheet" href="../css/home.css"> -->
+  <link rel="stylesheet" href="../css/timeCardEntry.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title><%= __('TimeCardEntry') %></title>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
+</head>
+<body>
+  <%- include('layouts/header1');-%>
+  <%- include('layouts/naviMenu');-%>
+  <!-- collapsible submenus -->
+  <div class="container-fluid">
+    <div class="row">
+      <%- include('layouts/sidebar');-%>
+      <div class="col-md-9">
+        <form action="/addTimeCard" method="post" class="form-horizontal" id="create-timecard-form">
+          <h3><%= __('TimeCardEntry') %></h3>
+
+          <input type="date" id="from_date" name="FROM_DATE" class="table_row" placeholder="<%= __('FromDate') %>"
+            style="height: 30px; width: 120px; ">
+
+          <input type="date" id="to_date" name="TO_DATE" class="table_row" placeholder="<%= __('ToDate') %>"
+            style="height: 30px; width: 120px; ">
+
+          <!-- <button type="submit" id="add-row-btn" class="btn btn-primary botn hidden-column"><%= __('AddRow') %></button> -->
+          <button type="submit" id="add-row-btn" class="btn btn-primary"><%= __('Save') %></button>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead >
+                <tr>
+                  
+                  <th><%= __('EMPLOYEE_ID') %></th>
+                  <th><%= __('TimeCardPeriod') %> </th>
+                  <th><%= __('Project') %></th>
+                  <th><%= __('Task') %></th>
+                  <th><%= __('ActivityType') %></th>
+                  <th><%= __('Sat') %></th>
+                  <th><%= __('Sun') %></th>
+                  <th><%= __('Mon') %></th>
+                  <th><%= __('Tue') %></th>
+                  <th><%= __('Wed') %></th>
+                  <th><%= __('Thu') %></th>
+                  <th><%= __('Fri') %></th>
+                  <th><%= __('TotalHours') %></th>
+                  <th><%= __('descriptions') %></th>
+                  <!-- <th>STATUS_ID</th>
+                  <th>CREATION_DATE</th> -->
+                  <th><%= __('Delete') %></th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>                 
+                  <td><input type="text" id="EMPLOYEE_ID" name="EMPLOYEE_ID" value="<%= employeeId %>" class="table_row" placeholder="<%= __('EMPLOYEE_ID') %>"
+                      style="height: 30px; width: 120px; "> </td>
+                  <td><input type="text" id="TIME_CARD_PERIOD" name="TIME_CARD_PERIOD" placeholder="<%= __('TimeCardPeriod') %> "
+                      style="height: 30px; width: 200px;" readonly></td>
+                  <td><textarea type="text" id="project" name="PROJECT_NAME" placeholder="<%= __('Project') %>"
+                      style="height: 30px; width: 150px;"></textarea></td>
+                  <td><textarea type="text" id="task" name="TASK_NAME" placeholder="<%= __('Task') %>"
+                      style="height: 30px; width: 150px;"></textarea></td>
+                  <td><textarea type="text" id="activityType" name="ACTIVITY_TYPE" placeholder="<%= __('ActivityType') %>"
+                      style="height: 30px; width: 120px; "></textarea></td>
+                  <td><input type="text" id="sat" name="SATURDAY" class="table_row" placeholder="<%= __('Sat') %>"></td>
+                  <!--class="form-control" -->
+                  <td><input type="text" id="SUNDAY" name="SUNDAY" class="table_row" placeholder="<%= __('Sun') %>"></td>
+                  <!-- <td><input type="number" id="mon" name="MONDAY" class="table_row" placeholder="Mon" ></td> -->
+                  <td><input type="text" id="mon" name="MONDAY" class="table_row" placeholder="<%= __('Mon') %>"></td>
+
+                  <td><input type="text" id="tue" name="TUESDAY" class="table_row" placeholder="<%= __('Tue') %>"></td>
+                  <td><input type="number" id="wed" name="WEDNESDAY" class="table_row" placeholder="<%= __('Wed') %>"></td>
+                  <td><input type="number" id="thu" name="THURSDAY" class="table_row" placeholder="<%= __('Thu') %>"></td>
+                  <td><input type="number" id="fri" name="FRIDAY" class="table_row" placeholder="<%= __('Fri') %>"></td>
+                  <td><input type="number" id="TOTAL_HOURS" name="TOTAL_HOURS" class="table_row"
+                      placeholder="TOTAL_HOURS" readonly></td>
+                  <td><textarea type="text" id="PROJECT_DESC" name="PROJECT_DESC" placeholder="<%= __('descriptions') %>"
+                      style="height: 30px; width: 130px;"></textarea> </td>
+
+                  <!-- Inside the form in createTimeCard.ejs -->
+                  <!-- Inside the form in createTimeCard.ejs -->
+                  <!-- ... Other input fields ... -->
+
+                  <!-- <td class="hidden-column"><input type="text" id="TIME_CARD_PERIOD" name="TIME_CARD_PERIOD"
+                      placeholder="TIME_CARD_PERIOD" style="height: 30px; width: 120px;"></td> -->
+                  <td class="hidden-column"><input type="text" id="CREATED_BY" name="CREATED_BY"
+                      placeholder="Created By" style="height: 30px; width: 120px;"></td>
+                  <td class="hidden-column"><input type="date" id="CREATION_DATE" name="CREATION_DATE"
+                      placeholder="Creation Date" style="height: 30px; width: 120px;"></td>
+                  <td class="hidden-column"><input type="text" id="LOGIN_ID" name="LOGIN_ID" placeholder="Login ID"
+                      style="height: 30px; width: 120px;"></td>
+                  <td class="hidden-column"><input type="text" id="LAST_UPDATED_BY" name="LAST_UPDATED_BY"
+                      placeholder="Last Updated By" style="height: 30px; width: 120px;"></td>
+                  <td class="hidden-column"><input type="date" id="LAST_UPDATED_DATE" name="LAST_UPDATED_DATE"
+                      placeholder="Last Updated Date" style="height: 30px; width: 120px;"></td>
+                  <!-- ... Other input fields ... -->
+                </tr>
+
+                <% timeCardData.forEach(function(data) { %>
+                  <!-- <tr style="text-align: center;"> -->
+                  <tr data-projtimecardid="<%= data.PROJ_TIMECARD_ID %>">
+                    <td>
+                      <%= data.EMPLOYEE_ID %>
+                    </td>
+                    <td>
+                      <%= data.TIME_CARD_PERIOD %>
+                    </td>
+                    <td>
+                      <%= data.PROJECT_NAME %>
+                    </td>
+                    <td>
+                      <%= data.TASK_NAME %>
+                    </td>
+                    <td>
+                      <%= data.ACTIVITY_TYPE %>
+                    </td>
+                    <td>
+                      <%= data.SATURDAY %>
+                    </td>
+                    <td>
+                      <%= data.SUNDAY %>
+                    </td>
+                    <td>
+                      <%= data.MONDAY %>
+                    </td>
+                    <td>
+                      <%= data.TUESDAY %>
+                    </td>
+                    <td>
+                      <%= data.WEDNESDAY %>
+                    </td>
+                    <td>
+                      <%= data.THURSDAY %>
+                    </td>
+                    <td>
+                      <%= data.FRIDAY %>
+                    </td>
+                    <td>
+                      <%= data.TOTAL_HOURS %>
+                    </td>
+                    <td>
+                      <%= data.PROJECT_DESC %>
+                    </td>
+                    <!-- <td>
+                      <%= data.STATUS_ID %>
+                    </td> -->
+                    <!-- <td>
+                      <%= data.CREATION_DATE %>
+                    </td> -->
+
+                    <td>
+                      <!-- <button class="update-row-btn" data-projtimecardid="<%= data.PROJ_TIMECARD_ID %>">&#9998;</button> -->
+                      <button class="delete-row-btn" data-projtimecardid="<%= data.PROJ_TIMECARD_ID %>"
+                        style="width: 50px; height:50px;font-size: 30px; background-color:white;color:black;font-weight: bold; margin:0px; padding:0px;"> &#128465; </button>
+                    </td>
+                  </tr>
+                  <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+      <%- include('layouts/script');-%>
+      <script>
+        //   document.getElementById('editRowForm').addEventListener('submit', function (event) {
+        //     event.preventDefault();
+
+        document.addEventListener('DOMContentLoaded', function () {
+          var createForm = document.getElementById('create-timecard-form');
+
+          // document.getElementById('editRowForm').addEventListener('submit', function (event) {
+
+          // Get values from the input fields
+
+          var project = document.getElementById('TIME_CARD_PERIOD').value;
+          var project = document.getElementById('project').value;
+          var task = document.getElementById('task').value;
+          var activityType = document.getElementById('activityType').value;
+          var sat = document.getElementById('sat').value;
+          var sun = document.getElementById('SUNDAY').value;
+          var mon = document.getElementById('mon').value;
+          var tue = document.getElementById('tue').value;
+          var wed = document.getElementById('wed').value;
+          var thu = document.getElementById('thu').value;
+          var fri = document.getElementById('fri').value;
+          var PROJECT_DESC = document.getElementById('PROJECT_DESC').value;
+
+          // Create a new table row
+          var newRow = document.createElement('tr');
+
+          newRow.innerHTML =
+            '<td>' + TIME_CARD_PERIOD + '</td>' +
+            '<td>' + project + '</td>' +
+            '<td>' + task + '</td>' +
+            '<td>' + activityType + '</td>' +
+            '<td>' + sat + '</td>' +
+            '<td>' + SUNDAY + '</td>' +
+            '<td>' + mon + '</td>' +
+            '<td>' + tue + '</td>' +
+            '<td>' + wed + '</td>' +
+            '<td>' + thu + '</td>' +
+            '<td>' + fri + '</td>' +
+            '<td>' + PROJECT_DESC + '</td>' +
+            '<td><button class="delete-row-btn" onclick="deleteRow(this)" style="width: 50px; height:50px;font-size: 30px; background-color:white;color:black;font-weight: bold; margin:0px; padding:0px;">&#128465;</button></td>';
+          // Append the new row to the table body
+          var tableBody = document.querySelector('.table tbody');
+          tableBody.appendChild(newRow);
+
+          // Clear input fields
+          createForm.reset();
+        });
+      </script>
+
+      <!--  calculate the corresponding to_date when from_date is selected and
+          calculate the corresponding from_date when to_date is selected      -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Function to calculate the corresponding to_date when from_date is selected
+          function calculateToDate() {
+            var fromDateInput = document.getElementById('from_date');
+            var toDateInput = document.getElementById('to_date');
+            var timeCardPeriodInput = document.getElementById('TIME_CARD_PERIOD');
+
+            if (fromDateInput.value !== '') {
+              var fromDate = new Date(fromDateInput.value);
+              var daysToAdd = (5 - fromDate.getDay() + 7) % 7; // Calculate days to add to reach the next Friday
+              var toDate = new Date(fromDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+
+              // Set the value of to_date input
+              toDateInput.valueAsDate = toDate;
+
+              // Set the value of time_card_period input
+              timeCardPeriodInput.value = formatDate(fromDate) + ' to ' + formatDate(toDate);
+            }
+          }
+
+          // Function to calculate the corresponding from_date when to_date is selected
+          function calculateFromDate() {
+            var fromDateInput = document.getElementById('from_date');
+            var toDateInput = document.getElementById('to_date');
+            var timeCardPeriodInput = document.getElementById('TIME_CARD_PERIOD');
+
+            if (toDateInput.value !== '') {
+              var toDate = new Date(toDateInput.value);
+              var daysToSubtract = (toDate.getDay() - 6 + 7) % 7; // Calculate days to subtract to reach the previous Saturday
+              var fromDate = new Date(toDate.getTime() - daysToSubtract * 24 * 60 * 60 * 1000);
+
+              // Set the value of from_date input
+              fromDateInput.valueAsDate = fromDate;
+
+              // Set the value of time_card_period input
+              timeCardPeriodInput.value = formatDate(fromDate) + ' - ' + formatDate(toDate);
+            }
+          }
+
+          // Attach event listeners to from_date and to_date inputs
+          document.getElementById('from_date').addEventListener('input', calculateToDate);
+          document.getElementById('to_date').addEventListener('input', calculateFromDate);
+
+          // Function to format date as 'YYYY-MM-DD'
+          function formatDate(date) {
+            var year = date.getFullYear();
+            var month = String(date.getMonth() + 1).padStart(2, '0');
+            var day = String(date.getDate()).padStart(2, '0');
+            return day + '-' + month + '-' + year;
+          }
+        });
+      </script>
+      <!-- calculate and display total hours script---- -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Function to calculate and display total hours
+          function calculateTotalHours() {
+            var sat = parseFloat(document.getElementById('sat').value) || 0;
+            var sun = parseFloat(document.getElementById('SUNDAY').value) || 0;
+            var mon = parseFloat(document.getElementById('mon').value) || 0;
+            var tue = parseFloat(document.getElementById('tue').value) || 0;
+            var wed = parseFloat(document.getElementById('wed').value) || 0;
+            var thu = parseFloat(document.getElementById('thu').value) || 0;
+            var fri = parseFloat(document.getElementById('fri').value) || 0;
+
+            var totalHours = sat + sun + mon + tue + wed + thu + fri;
+
+            // Display the total in the corresponding input field
+            document.getElementById('TOTAL_HOURS').value = totalHours;
+          }
+
+          // Attach event listeners to the input fields to trigger the calculation
+          document.getElementById('sat').addEventListener('input', calculateTotalHours);
+          document.getElementById('SUNDAY').addEventListener('input', calculateTotalHours);
+          document.getElementById('mon').addEventListener('input', calculateTotalHours);
+          document.getElementById('tue').addEventListener('input', calculateTotalHours);
+          document.getElementById('wed').addEventListener('input', calculateTotalHours);
+          document.getElementById('thu').addEventListener('input', calculateTotalHours);
+          document.getElementById('fri').addEventListener('input', calculateTotalHours);
+
+          // Trigger the calculation initially to ensure the total is displayed
+          calculateTotalHours();
+        });
+      </script>
+
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+      <!-- ----------------delete the records using ajax-------------------- -->
+
+      <script>
+        // Handle delete button click
+        $('.delete-row-btn').click(function (event) {
+          event.preventDefault();
+          var projTimecardId = $(this).data('projtimecardid');
+
+          // Store a reference to the button element for later use
+          var deleteButton = $(this);
+
+          // Send AJAX request to delete row
+          $.ajax({
+            url: '/deleteTimeCard', // Update the route to match the server-side route
+            method: 'POST',
+            data: { projTimecardId: projTimecardId },
+            success: function (response) {
+              // Handle success (e.g., remove the deleted row from the table)
+              // You may need to refresh the page or update the table dynamically
+              // based on your application's requirements.
+              console.log('Row deleted successfully');
+
+              // Remove the deleted row from the table using AJAX
+              deleteButton.closest('tr').remove();
+
+              // Reload the page (you can use window.location.reload(true) to force a full page reload)
+              window.location.reload(true);
+            },
+            error: function (error) {
+              console.error('Error deleting row:', error);
+            }
+          });
+        });
+      </script>
+
+      <script>
+        function openEditForm(button) {
+          // Extract data from the button's dataset
+          const rowData = JSON.parse(button.dataset.row);
+
+          // Enable editing by removing readonly attribute
+          document.getElementById('TIME_CARD_PERIOD').readOnly = false;
+          document.getElementById('project').readOnly = false;
+          document.getElementById('task').readOnly = false;
+          document.getElementById('activityType').readOnly = false;
+          document.getElementById('sat').readOnly = false;
+          document.getElementById('SUNDAY').readOnly = false;
+          document.getElementById('mon').readOnly = false;
+          document.getElementById('tue').readOnly = false;
+          document.getElementById('wed').readOnly = false;
+          document.getElementById('thu').readOnly = false;
+          document.getElementById('fri').readOnly = false;
+          document.getElementById('PROJECT_DESC').readOnly = false;
+
+          // Fill in the input fields with existing data
+          document.getElementById('TIME_CARD_PERIOD').value = rowData.TIME_CARD_PERIOD;
+          document.getElementById('project').value = rowData.PROJECT_NAME;
+          document.getElementById('task').value = rowData.TASK_NAME;
+          document.getElementById('activityType').value = rowData.ACTIVITY_TYPE;
+          document.getElementById('sat').value = rowData.SATURDAY;
+          document.getElementById('SUNDAY').value = rowData.SUNDAY;
+          document.getElementById('mon').value = rowData.MONDAY;
+          document.getElementById('tue').value = rowData.TUESDAY;
+          document.getElementById('wed').value = rowData.WEDNESDAY;
+          document.getElementById('thu').value = rowData.THURSDAY;
+          document.getElementById('fri').value = rowData.FRIDAY;
+          document.getElementById('PROJECT_DESC').value = rowData.PROJECT_DESC;
+
+          // Display the modal
+          openModal('editModal');
+        }
+
+
+      </script>
+      <!-- Add the following scripts to your existing script section -->
+      <!-- Add the following scripts to your existing script section -->
+      <!-- Add these scripts to your existing script section -->
+      <!-- Add these scripts to your existing script section -->
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+      
+<script>
+  function toggleEditMode(button) {
+    var row = button.closest('tr');
+    var cells = row.querySelectorAll('td:not(:last-child)');
+    var updateButton = row.querySelector('.update-row-btn');
+
+    if (button.classList.contains('editing')) {
+      // Switch back to view mode
+      button.classList.remove('editing');
+      updateButton.style.display = 'none';
+
+      cells.forEach(function(cell) {
+        if (!cell.classList.contains('button-cell')) {
+          var input = cell.querySelector('input');
+          var content = input.value;
+          cell.innerHTML = content;
+        }
+      });
+    } else {
+      // Switch to edit mode
+      button.classList.add('editing');
+      updateButton.style.display = 'inline-block';
+
+      cells.forEach(function(cell) {
+        if (!cell.classList.contains('button-cell')) {
+          var content = cell.innerText;
+          cell.innerHTML = `<input type="text" value="${content}">`;
+        }
+      });
+    }
+  }
+
+  function updateRow(button) {
+  var row = button.closest('tr');
+  var editButton = row.querySelector('.edit-row-btn');
+
+  // Trigger the edit button to switch back to view mode
+  toggleEditMode(editButton);
+
+  // Prepare the data for update
+  var updatedData = {};
+
+  // Iterate through all cells (excluding the last one with action buttons)
+  row.querySelectorAll('td:not(:last-child)').forEach(function(cell) {
+    if (!cell.classList.contains('button-cell')) {
+      var fieldName = cell.classList[0]; // Assuming the first class is the field name
+      var input = cell.querySelector('input');
+      updatedData[fieldName] = input.value;
+    }
+  });
+
+  // Send updated data to the server using AJAX
+  fetch('/updateRow/:id', {
+    method: 'Put',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedData),
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Handle response from the server, if necessary
+      console.log('Update successful:', data);
+    })
+    .catch(error => {
+      console.error('Error updating data:', error);
+    });
+}
+</script>
+<!-- Add the following script inside the <head> section or before the closing </body> tag -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('create-timecard-form').addEventListener('submit', function (event) {
+        // Prevent the form from submitting
+        event.preventDefault();
+
+        // Clear previous error messages
+        clearErrorMessages();
+
+        // Validate input fields
+        var isValid = validateForm();
+
+        if (isValid) {
+          // If the form is valid, submit it
+          this.submit();
+        }
+      });
+
+      function validateForm() {
+        var isValid = true;
+
+        // Function to create error message element and append it below the input field
+        function addErrorMessage(inputField, errorMessage) {
+          var errorElement = document.createElement('div');
+          errorElement.className = 'error-message';
+          errorElement.textContent = errorMessage;
+
+
+          // Apply styling for red color and decreased font size
+          errorElement.style.color = 'red';
+          errorElement.style.fontSize = '12px'; // Adjust the font size as needed
+
+          // Insert the error message element after the input field
+          inputField.parentNode.insertBefore(errorElement, inputField.nextSibling);
+
+          isValid = false; // Set form validity to false
+        }
+
+        var employeeId = document.getElementById('EMPLOYEE_ID');
+        var fromDate = document.getElementById('from_date');
+        var toDate = document.getElementById('to_date');
+        var project = document.getElementById('project');
+        var task = document.getElementById('task');
+        var activityType = document.getElementById('activityType');
+        var sat = document.getElementById('sat');
+        var sun = document.getElementById('SUNDAY');
+
+        var mon = document.getElementById('mon');
+        var tue = document.getElementById('tue');
+        var wed = document.getElementById('wed');
+        var thu = document.getElementById('thu');
+        var fri = document.getElementById('fri');
+        var totalHours = document.getElementById('TOTAL_HOURS');
+        var projectDesc = document.getElementById('PROJECT_DESC');
+        // Check if any of the required fields are empty
+        if (employeeId.value.trim() === '') {
+          addErrorMessage(employeeId, 'Please enter Employee ID.');
+        }
+        if (fromDate.value.trim() === '') {
+          addErrorMessage(fromDate, 'Please select From Date.');
+        }
+        if (toDate.value.trim() === '') {
+          addErrorMessage(toDate, 'Please select To Date.');
+        }
+        if (project.value.trim() === '') {
+          addErrorMessage(project, 'Please enter Project.');
+        }
+        if (task.value.trim() === '') {
+          addErrorMessage(task, 'Please enter Task.');
+        }
+        if (activityType.value.trim() === '') {
+          addErrorMessage(activityType, 'Please enter Activity Type.');
+        }
+        if (sat.value.trim() === '') {
+          addErrorMessage(sat, 'Please enter Zero or Work Hours.');
+        }
+        if (sun.value.trim() === '') {
+          addErrorMessage(sun, 'Please enter Zero or Work Hours.');
+        }
+        if (mon.value.trim() === '') {
+          addErrorMessage(mon, 'Please enter Zero or Work Hours.');
+        }
+        if (tue.value.trim() === '') {
+          addErrorMessage(tue, 'Please enter Zero or Work Hours.');
+        }
+        if (wed.value.trim() === '') {
+          addErrorMessage(wed, 'Please enter Zero or Work Hours.');
+        }
+        if (thu.value.trim() === '') {
+          addErrorMessage(thu, 'Please enter Zero or Work Hours.');
+        }
+        if (fri.value.trim() === '') {
+          addErrorMessage(fri, 'Please enter Zero or Work Hours.');
+        }
+        if (totalHours.value.trim() === '') {
+          addErrorMessage(totalHours, 'Please enter TOTAL HOURS.');
+        }
+        if (projectDesc.value.trim() === '') {
+          addErrorMessage(projectDesc, 'Please enter Project description.');
+        }
+        return isValid; // Return form validity
+      }
+
+      function clearErrorMessages() {
+        var errorMessages = document.querySelectorAll('.error-message');
+        errorMessages.forEach(function (errorMessage) {
+          errorMessage.parentNode.removeChild(errorMessage);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+

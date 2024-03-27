@@ -1,0 +1,540 @@
+<!--leaveDetails.ejs-->
+ 
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= __('LeaveDet') %></title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="css/leavedetails.css"> -->
+  <link rel="stylesheet" href="css/style1.css">
+  <!-- <link rel="stylesheet" href="css/home.css"> -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <%- include('layouts/header2');-%>
+  <%- include('layouts/naviMenu');-%>
+  <!-- collapsible submenus -->
+  <div class="container-fluid">
+      <div class="row">
+        <%- include('layouts/sidebar');-%>
+        <div class="col-md-9">
+          <div class="container-fluid mt-3">
+            <div class="row">
+              <!-- Leave Balance Table (Left Side) -->
+              <div class="col-md-3" style="margin-left: 10px; margin-top: 10px; width: 50%;">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th><%= __('LeaveType') %></th>
+                      <th><%= __('TotalLeaves') %></th>
+                      <th><%= __('Consumed') %></th>
+                      <th><%= __('Remaining') %></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><%= __('SickLeave') %></td>
+                      <td>
+                        <%= leaveBalance.sickLeave.total %>
+                      </td>
+                      <td>
+                        <%= leaveBalance.sickLeave.consumed %>
+                      </td>
+                      <td>
+                        <%= leaveBalance.sickLeave.remaining %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><%= __('CasualLeave') %></td>
+                      <td>
+                        <%= leaveBalance.casualLeave.total %>
+                      </td>
+                      <td>
+                        <%= leaveBalance.casualLeave.consumed %>
+                      </td>
+                      <td>
+                        <%= leaveBalance.casualLeave.remaining %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><%= __('PlannedLeave') %></td>
+                      <td>
+                        <%= leaveBalance.plannedLeave.total %>
+                      </td>
+                      <td>
+                        <%= leaveBalance.plannedLeave.consumed %>
+                      </td>
+                      <td>
+                        <%= leaveBalance.plannedLeave.remaining %>
+                      </td>
+                    </tr>
+ 
+                  </tbody>
+                </table>
+              </div>
+              <!-- Pie Chart (Right Side) -->
+              <div class="col-md-6  offset-md-2">
+                <div style="margin-left: 100px;">
+                  <canvas id="pieChart" width="300px" height="300px"></canvas>
+                </div>
+              </div>
+            </div>
+            </div>
+            <!-- Leave Table (Below Both) -->
+            <div class="container-fluid mt-2 ">
+              <div class="row">
+                <div class="col-md-5" >
+                  <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" onclick="searchTable()">Search</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-primary" style="width: 150px; height: 37px;"
+                    onclick="openModal('applyLeaveModal')">Apply Leave</button>
+                </div>
+              </div>
+            </div>
+            <div class="table-container mt-0 ml-2 mb-3">
+                <div class="row">
+                  <div class="col-md-5">
+                    <table class="table table-bordered" id="leaveTable">
+                      <thead>
+                        <tr>
+                          <!-- <th>Edit</th> -->
+                          <th>Employee ID</th> <!---style="width:200px;"-->
+                          <th>Employee Name</th>
+                          <th>Leave ID</th>
+                          <th>Leave From Date</th>
+                          <th>Leave To Date</th>
+                          <th>Days of Leave</th>
+                          <th>Comments</th>
+                          <th>Status ID</th>
+ 
+                          <th>Approved By</th>
+                          <th>Approval Date</th>
+                          <th>Leave Type ID</th>
+                          <th>Leave Type Name</th>
+                          <th>Leaves Remaining</th>
+                          <th>Total Leaves</th>
+                          <th>Status</th>
+                          <!-- <th>Delete</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% leaveData.forEach(function(data) { %>
+                          <tr data-leaveid="<%= data.LEAVE_APPROVAL_ID %>">
+                            <td>
+                              <%= data.EMPLOYEE_ID %>
+                            </td>
+                            <td>
+                              <%= data.EMPLOYEE_NAME %>
+                            </td>
+                            <td>
+                              <%= data.LEAVE_ID %>
+                            </td>
+                            <td>
+                              <%= data.LEAVE_FROM_DATE %>
+                            </td>
+                            <td>
+                              <%= data.LEAVE_TO_DATE %>
+                            </td>
+                            <td>
+                              <%= data.DAYS_OF_LEAVE %>
+                            </td>
+                            <td>
+                              <%= data.COMMENTS %>
+                            </td>
+                            <td>
+                              <%= data.STATUS_ID %>
+                            </td>
+                            <td>
+                              <%= data.APPROVED_BY %>
+                            </td>
+                            <td>
+                              <%= data.APPROVAL_DATE %>
+                            </td>
+                            <td>
+                              <%= data.LEAVE_TYPE_ID %>
+                            </td>
+                            <td>
+                              <%= data.Lookup_Values %>    
+                            </td>
+                            <td>
+                              <%= data.LEAVES_REMAINING %>
+                            </td>
+                            <td>
+                              <%= data.TOTAL_LEAVES %>
+                            </td>
+                            <td>
+                              <%= statusIdToNameMapping[data.STATUS_ID] || 'Submited' %>
+                            </td>
+                          </tr>
+                          <% }); %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+          </div>
+<!-- Apply Leave Modal -->
+<div id="applyLeaveModal" class="modal mt-4 " >
+  <div class="modal-content" id="leaveformdetails">
+    <div class="container-fluid" >
+      <span class="close-icon" onclick="closeModal('applyLeaveModal')">&times;</span>
+      <h3 style="text-align: center;margin-bottom: 25px;">Apply Leave</h3>
+      <!-- Your modal content goes here -->
+      <form action="/applyLeave" method="post" id="leaveForm">
+        <div class="form-group row">
+          <!-- Employee ID -->
+          <label for="employeeId" class="col-sm-3 col-form-label">Employee ID:</label>
+          <div class="col-sm-3 mb-2">
+            <input type="text" id="employeeId" name="employeeId" value="<%= employeeId %>" >
+            <span class="error" id="employeeIdError"></span>
+          </div>
+ 
+          <!-- Employee Name -->
+          <label for="employeeName" class="col-sm-3 col-form-label">Employee Name:</label>
+          <div class="col-sm-3 mb-2">
+            <input type="text" id="employeeName" name="employeeName" value="<%= username %>" >
+            <span class="error" id="employeeNameError"></span>
+          </div>
+ 
+ 
+ 
+          <!-- Leave From Date -->
+          <label for="leaveFromDate" class="col-sm-3 col-form-label">Leave From Date:</label>
+          <div class="col-sm-3 mb-2">
+            <input type="date" id="leaveFromDate" name="leaveFromDate">
+            <span class="error" id="leaveFromDateError"></span>
+          </div>
+ 
+          <!-- Leave To Date -->
+          <label for="leaveToDate" class="col-sm-3 col-form-label">Leave To Date:</label>
+          <div class="col-sm-3 mb-2">
+            <input type="date" id="leaveToDate" name="leaveToDate">
+            <span class="error" id="leaveToDateError"></span>
+          </div>
+ 
+          <!-- Days of Leave -->
+          <label for="daysOfLeave" class="col-sm-3 col-form-label">Days of Leave:</label>
+          <div class="col-sm-3 mb-2">
+            <input type="number" id="daysOfLeave" name="daysOfLeave">
+            <span class="error" id="daysOfLeaveError"></span>
+          </div>
+ 
+          <!-- Leave Type -->
+          <label for="leaveType" class="col-sm-3 col-form-label">Leave Type:</label>
+          <div class="col-sm-3 mb-2">
+            <select class="form-control" id="leaveType" name="leaveTypeId" required style="border-color: black;">
+              <option placeholder="select leave type" > </option>
+              <!-- <select class="form-control" id="leaveType" name="leaveTypeId" required style="border-color: black;"> -->
+              <% if (leaveTypeLov) { %>
+                <% leaveTypeLov.forEach(leaveType=> { %>
+                  <option value="<%= leaveType.Child_Id %>">
+                    <%= leaveType.Lookup_Values %>
+                  </option>
+                  <% }); %>
+                    <% } %>
+                      <!-- </select> -->
+            </select>
+            <span class="error" id="leaveTypeError"></span>
+          </div>
+ 
+          <!-- Comments -->
+          <label for="comments" class="col-sm-3 col-form-label">Comments:</label>
+          <div class="col-sm-3 mb-2">
+            <textarea id="comments" name="comments" rows="4" style="width:400px"></textarea>
+            <span class="error" id="commentsError"></span>
+          </div>
+        </div>
+ 
+        <!-- Leave ID -->
+ 
+        <label for="leaveId" class="col-sm-3 col-form-label" >Leave ID:</label>
+        <div class="col-sm-3 mb-2">
+          <input type="number" id="leaveId" name="leaveId" readonly >
+          <span class="error" id="leaveIdError" ></span>  <!-- style="display: none;"-->
+        </div>
+ 
+        <div style="margin-left: 70%; display: flex; gap: 5px;">
+          <button type="button" class="btn btn-primary" style="width: 100px; height: 40px;"
+              onclick="closeModal('applyLeaveModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="width: 100px; height: 40px;"
+              onclick="submitbtn(event)">Submit</button>
+      </div>
+      </form>
+ 
+      </form>
+    </div>
+  </div>
+</div>
+  <!-- Bootstrap JS and Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <%- include('layouts/script');-%>
+  <!-- Script for search functionality -->
+  <script>
+    function searchTable() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("leaveTable");
+      tr = table.getElementsByTagName("tr");
+ 
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1]; // Change index based on the column you want to search
+ 
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+ 
+          // If the text content of the current cell matches the search filter, display the row, otherwise hide it
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
+ 
+  <script>
+    // modal.js
+    function openModal(modalId) {
+      var modal = document.getElementById(modalId);
+      modal.style.display = 'block';
+    }
+ 
+    function closeModal(modalId) {
+      var modal = document.getElementById(modalId);
+      modal.style.display = 'none';
+    }
+ 
+    // Handle close icon clicks within the modal
+    document.addEventListener('click', function (event) {
+      if (event.target.classList.contains('close-icon')) {
+        closeModal(getModalIdFromEvent(event));
+      }
+    });
+ 
+    function getModalIdFromEvent(event) {
+      var modal = event.target.closest('.modal');
+      return modal ? modal.id : null;
+    }
+    // function submitbtn() {
+    //         // You may want to perform additional logout actions (e.g., clearing session) here
+    //         window.location.href = '/leaveDetails'; // Redirect to the login page
+    // }
+ 
+ 
+  </script>
+ 
+  <!-- ********************************************************************* -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    // Assuming you have jQuery included in your project
+    $(document).ready(function () {
+      // Event listener for Employee ID dropdown
+      $('#employeeId').change(function () {
+        fetchLeaveId();
+      });
+ 
+      // Event listener for Leave Type ID dropdown
+      $('#leaveType').change(function () {
+        fetchLeaveId();
+      });
+ 
+      function fetchLeaveId() {
+        const employeeId = $('#employeeId').val();
+        const leaveTypeId = $('#leaveType').val();
+ 
+        // Make an AJAX request to the server to fetch Leave ID based on Employee ID and Leave Type ID
+        $.ajax({
+          type: 'GET',
+          url: `/getLeaveId1?employeeId=${employeeId}&leaveTypeId=${leaveTypeId}`,
+          success: function (data) {
+            // Update the Leave ID input field with the fetched value
+            $('#leaveId').val(data.leaveId);
+          },
+          error: function (error) {
+            console.error('Error fetching Leave ID:', error);
+          }
+        });
+      }
+    });
+  </script>
+ 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const root = document.documentElement;
+    const firstPieColor = getComputedStyle(root).getPropertyValue('--firstPie-color').trim();
+    const secondPieColor = getComputedStyle(root).getPropertyValue('--secondPie-color').trim();
+    const thirdPieColor = getComputedStyle(root).getPropertyValue('--thirdPie-color').trim();
+ 
+      // Fetch leave balance data from the server
+      fetch('/getLeaveBalanceData')
+        .then(response => response.json())
+        .then(leaveRemainingData => {
+          // Get the context of the canvas element
+          const ctx = document.getElementById('pieChart').getContext('2d');
+ 
+          // Create a pie chart with legend positioned below
+          const pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: ['Sick Leave', 'Casual Leave', 'Planned Leave'],
+              datasets: [{
+                data: [leaveRemainingData.sickLeave, leaveRemainingData.casualLeave, leaveRemainingData.plannedLeave],
+                backgroundColor: [firstPieColor, secondPieColor, thirdPieColor],
+              }],
+            },
+            options: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  boxWidth: 20, // Adjust the box width if needed
+                },
+              },
+            },
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching leave balance data:', error);
+        });
+    });
+  </script>
+ 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const leaveFromDateInput = document.getElementById('leaveFromDate');
+      const leaveToDateInput = document.getElementById('leaveToDate');
+ 
+      leaveFromDateInput.addEventListener('change', () => {
+        const selectedFromDate = new Date(leaveFromDateInput.value);
+        leaveToDateInput.min = leaveFromDateInput.value;
+        leaveToDateInput.disabled = false;
+      });
+    });
+  </script>
+  <!--validations-->
+  <script>
+    function submitbtn(event) {
+      // Prevent the form from submitting if validation fails
+      if (!validateForm()) {
+        event.preventDefault();
+        return;
+      }
+ 
+      // Show a confirmation dialog
+      const isConfirmed = confirm("Are you sure you want to submit the form?");
+ 
+      if (!isConfirmed) {
+        // If not confirmed, prevent form submission
+        event.preventDefault();
+        return;
+      }
+ 
+      // Close the modal
+      closeModal('applyLeaveModal');
+ 
+      // Submit the form
+      document.getElementById('leaveForm').submit();
+ 
+      // Reload the page after a short delay to ensure form submission is complete
+      setTimeout(function () {
+        window.location.reload();
+      }, 500); // Adjust the delay as needed
+    }
+ 
+    function validateForm() {
+      // Reset error messages
+      clearErrors();
+ 
+      // Validation flag
+      let isValid = true;
+ 
+      // Validate Employee ID
+      const employeeId = document.getElementById('employeeId').value;
+      if (!employeeId) {
+        displayError('employeeIdError', 'Please fill in the Employee ID.');
+        isValid = false;
+      }
+ 
+      // Validate Employee Name
+      const employeeName = document.getElementById('employeeName').value;
+      if (!employeeName) {
+        displayError('employeeNameError', 'Please fill in the Employee Name.');
+        isValid = false;
+      }
+ 
+      // Validate Leave ID
+      const leaveId = document.getElementById('leaveId').value;
+      // Add more specific validation if needed for Leave ID
+ 
+      // Validate Leave From Date
+      const leaveFromDate = document.getElementById('leaveFromDate').value;
+      if (!leaveFromDate) {
+        displayError('leaveFromDateError', 'Please select Leave From Date.');
+        isValid = false;
+      }
+ 
+      // Validate Leave To Date
+      const leaveToDate = document.getElementById('leaveToDate').value;
+      if (!leaveToDate) {
+        displayError('leaveToDateError', 'Please select Leave To Date.');
+        isValid = false;
+      }
+ 
+      // Validate Days of Leave
+      const daysOfLeave = document.getElementById('daysOfLeave').value;
+      if (!daysOfLeave) {
+        displayError('daysOfLeaveError', 'Please fill in Days of Leave.');
+        isValid = false;
+      }
+ 
+      // Validate Leave Type
+      const leaveType = document.getElementById('leaveType').value;
+      if (!leaveType) {
+        displayError('leaveTypeError', 'Please select Leave Type.');
+        isValid = false;
+      }
+ 
+      // Validate Comments
+      const comments = document.getElementById('comments').value;
+      if (!comments) {
+        displayError('commentsError', 'Please fill in Comments.');
+        isValid = false;
+      }
+ 
+      return isValid;
+    }
+ 
+ 
+ 
+    function displayError(id, message) {
+      // Display error message in red color
+      const errorSpan = document.getElementById(id);
+      errorSpan.innerText = message;
+      errorSpan.style.color = 'red';
+    }
+ 
+    function clearErrors() {
+      // Clear all error messages and reset color
+      const errorSpans = document.querySelectorAll('.error');
+      errorSpans.forEach((span) => {
+        span.innerText = '';
+        span.style.color = ''; // Reset color
+      });
+    }
+  </script>
+ 
+</body>
+</html>

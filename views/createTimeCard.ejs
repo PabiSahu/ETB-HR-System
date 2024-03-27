@@ -1,0 +1,99 @@
+<!-- createTimeCard.ejs -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style1.css">
+  <title><%= __('CreateTimecard') %></title>
+</head>
+
+<body>
+  <img class="wave" src="img/wave.png">
+  
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg nav_bar">
+  <a class="navbar-brand" style="color:white;" href="#">
+    <!-- Add your company logo here -->
+    Company Logo
+  </a>
+
+  <!-- User photo and search button -->
+  <div class="ml-auto">
+    <div class="navbar-nav">
+      <input type="text" class="form-control mr-2" placeholder="Search">
+      <img src="user-photo.jpg" alt="User Photo" class="user-photo">
+    </div>
+  </div>
+</nav>
+<div class="container mt-5"></div>
+    <h1><%= __('CreateTimecard') %></h1>
+    <form action="/addTimeCard" method="post" class="form-horizontal" id="create-timecard-form">
+
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="project"><%= __('Project') %>:</label>
+          <input type="text" id="project" name="project" class="form-control" placeholder="<%= __('Project') %>" required>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="task"><%= __('Task') %>:</label>
+          <input type="text" id="task" name="task" class="form-control" placeholder="<%= __('Task') %>" required>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="activityType"><%= __('ActivityType') %>:</label>
+          <input type="text" id="activityType" name="activityType" class="form-control" placeholder="<%= __('ActivityType') %>"
+            required>
+        </div>
+
+        <div class="form-group col-md-1">
+          <label for="sat"><%= __('Sat') %>:</label>
+          <input type="text" id="sat" name="sat" class="form-control" placeholder="<%= __('Sat') %>" required>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="sun"><%= __('Sun') %>:</label>
+          <input type="text" id="sun" name="sun" class="form-control" placeholder="<%= __('Sun') %>" required>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="mon"><%= __('Mon') %>:</label>
+          <input type="text" id="mon" name="mon" class="form-control" placeholder="<%= __('Mon') %>" required>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="tue"><%= __('Tue') %>:</label>
+          <input type="text" id="tue" name="tue" class="form-control" placeholder="<%= __('Tue') %>" required>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="wed"><%= __('Wed') %>:</label>
+          <input type="text" id="wed" name="wed" class="form-control" placeholder="<%= __('Wed') %>" required>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="thu"><%= __('Thu') %>:</label>
+          <input type="text" id="thu" name="thu" class="form-control" placeholder="<%= __('Thu') %>" required>
+        </div>
+
+        <div class="form-group col-md-1">
+          <label for="fri"><%= __('Fri') %>:</label>
+          <input type="text" id="fri" name="fri" class="form-control" placeholder="<%= __('Fri') %>" required>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="description"><%= __('descriptions') %>:</label>
+          <input type="text" id="description" name="description" class="form-control" placeholder="<%= __('descriptions') %>"
+            required>
+        </div>
+
+        <div class="form-group col-md-1">
+          <label for="delete"><%= __('Delete') %>:</label>
+          <input type="checkbox" id="delete" name="delete">
+        </div>
+      </div>
+
+      <button type="submit"><%= __('AddRow') %></button>
+    </form>
+
+  </div>
+  <script type="text/javascript" src="js/main.js"></script>
+</body>
+
+</html>
